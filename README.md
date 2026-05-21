@@ -1,46 +1,41 @@
-# Astro Starter Kit: Basics
+# Art Soul
 
-```sh
-npm create astro@latest -- --template basics
+Landing page narrative pour une artiste peintre et dessinatrice. Objectif : faire découvrir son univers et raconter une histoire.
+
+## Stack
+
+- [Astro 6](https://astro.build) — SSR via adapter Vercel
+- [Tailwind v4](https://tailwindcss.com) — CSS-first, tokens dans `src/styles/global.css`
+- [GSAP + ScrollTrigger](https://gsap.com) — animations narratives
+- [Resend](https://resend.com) — envoi d'emails (formulaire contact)
+
+## Commandes
+
+```bash
+npm run dev      # http://localhost:4321
+npm run build    # build de production
+npm run preview  # prévisualiser le build
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Variables d'environnement
 
-## 🚀 Project Structure
+Copier `.env.example` en `.env` et remplir :
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+```
+RESEND_API_KEY=
+CONTACT_TO_EMAIL=
+CONTACT_FROM_EMAIL=
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Structure
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+```
+src/
+├── components/sections/   # un composant .astro par section
+├── layouts/Layout.astro   # layout global
+├── lib/gsap.ts            # init GSAP + ScrollTrigger
+├── pages/
+│   ├── index.astro        # page principale
+│   └── api/contact.ts     # route email Resend (à venir)
+└── styles/global.css      # Tailwind + design tokens + fonts
+```

@@ -1,0 +1,146 @@
+---
+const oeuvreHero = "/assets/hero-oeuvre.webp"; // remplacer par le vrai fichier
+---
+
+<section
+  id="hero"
+  class="relative min-h-screen flex flex-col overflow-hidden lg:flex-row"
+>
+  <!-- Image en arrière-plan : mobile uniquement, masquée sur desktop -->
+  <div class="absolute inset-0 lg:hidden overflow-hidden">
+    <img
+      id="hero-bg-img"
+      src={oeuvreHero}
+      alt=""
+      aria-hidden="true"
+      class="w-full h-full object-cover object-center"
+    />
+    <div
+      class="absolute inset-0 bg-linear-to-b from-ink/85 via-ink/72 to-ink/95"
+    >
+    </div>
+  </div>
+
+  <!-- Texte -->
+  <div
+    class="relative z-10 flex-1 flex flex-col justify-center items-center lg:items-start px-8 md:px-14 lg:px-20 xl:px-28 py-24 lg:py-0"
+  >
+    <span
+      id="hero-prenom"
+      class="font-sans text-paper/40 text-xs tracking-[0.4em] uppercase mb-6"
+    >
+      Justine
+    </span>
+
+    <h1 id="hero-title" class="font-display font-bold leading-[0.9] mb-5">
+      <span
+        class="block text-[clamp(3rem,12vw,6rem)] bg-gradient-to-r from-gold to-paper bg-clip-text text-transparent"
+      >
+        ARTSOUL
+      </span>
+    </h1>
+
+    <!-- Ligne séparatrice animée -->
+    <div id="hero-line" class="w-24 h-px bg-gold/60 mb-10"></div>
+
+    <p
+      id="hero-tagline"
+      class="font-serif italic text-paper/70 text-xl lg:text-2xl mb-14 max-w-sm leading-relaxed"
+    >
+      Je transforme les failles en lumière
+    </p>
+
+    <div id="hero-ctas" class="flex flex-col sm:flex-row gap-4">
+      <a
+        href="#contact"
+        class="font-sans text-xs tracking-[0.25em] uppercase font-semibold px-8 py-4 bg-gold text-ink hover:bg-gold/85 transition-colors duration-300 text-center"
+      >
+        Me contacter
+      </a>
+      <a
+        href="#oeuvres"
+        class="font-sans text-xs tracking-[0.25em] uppercase font-medium px-8 py-4 border border-paper/25 text-paper/80 hover:border-paper/60 hover:text-paper transition-colors duration-300 text-center"
+      >
+        Voir les œuvres
+      </a>
+    </div>
+  </div>
+
+  <!-- Image panel : desktop uniquement -->
+  <div
+    id="hero-image-panel"
+    class="hidden lg:flex lg:w-[45%] shrink-0 items-center justify-center"
+  >
+    <img
+      src={oeuvreHero}
+      alt="Œuvre de Justine"
+      class="h-full max-h-screen w-full object-cover"
+    />
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+
+  // ── Pourquoi gsap.from() et pas gsap.to() ────────────────────────────────
+  // gsap.from() part d'un état défini (ex: invisible, décalé) et revient
+  // à l'état naturel de l'élément tel qu'il est dans le CSS.
+  // Résultat : le HTML reste intact (texte visible pour Lighthouse/crawlers),
+  // c'est GSAP qui crée l'état initial au runtime via JavaScript.
+  //
+  // autoAlpha : version GSAP de opacity. La différence : quand autoAlpha
+  // atteint 0, GSAP ajoute aussi visibility:hidden (meilleur pour le GPU).
+  // Quand il remonte à 1, visibility revient à visible automatiquement.
+
+  // ── Timeline universelle (mobile + desktop) ──────────────────────────────
+  // Une timeline enchaîne les animations dans l'ordre.
+  // defaults : les options partagées par tous les tweens de la timeline.
+  // "-=0.3" : commence 0.3s avant la fin du tween précédent → chevauchement fluide.
+  const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+  // scaleX : fait grandir la ligne de 0 à sa largeur naturelle (transform GPU, pas de reflow).
+  // transformOrigin "center" : grandit depuis le centre → fonctionne que le texte soit
+  // centré (mobile) ou aligné à gauche (desktop).
+  // ease "power3.inOut" : démarre lentement, s'accélère, puis freine — effet "tracé".
+  tl.from("#hero-prenom", { y: 16, autoAlpha: 0, duration: 0.5 })
+    .from("#hero-title", { y: 30, autoAlpha: 0, duration: 0.75 }, "-=0.2")
+    .from(
+      "#hero-line",
+      {
+        scaleX: 0,
+        transformOrigin: "center",
+        duration: 0.6,
+        ease: "power3.inOut",
+      },
+      "-=0.3",
+    )
+    .from("#hero-tagline", { y: 20, autoAlpha: 0, duration: 0.6 }, "-=0.2")
+    .from("#hero-ctas", { y: 16, autoAlpha: 0, duration: 0.5 }, "-=0.25");
+
+  // ── Animations par breakpoint (gsap.matchMedia) ───────────────────────────
+  // Fonctionne comme une media query CSS.
+  // Les animations sont annulées/recréées si la fenêtre change de taille
+  // (ex: rotation écran), ce qui évite les états GSAP bloqués entre layouts.
+  const mm = gsap.matchMedia();
+
+  // Desktop : le panneau image glisse depuis la droite en même temps que le titre
+  mm.add("(min-width: 1024px)", () => {
+    gsap.from("#hero-image-panel", {
+      x: 60,
+      autoAlpha: 0,
+      duration: 1.1,
+      ease: "power3.out",
+      delay: 0.3,
+    });
+  });
+
+  // Mobile : léger zoom arrière sur l'image de fond (Ken Burns discret)
+  // Pas de autoAlpha ici : l'image de fond doit rester visible en permanence
+  mm.add("(max-width: 1023px)", () => {
+    gsap.from("#hero-bg-img", {
+      scale: 1.3,
+      duration: 2.5,
+      ease: "power2.out",
+    });
+  });
+</script>
