@@ -42,6 +42,7 @@ Définis dans `src/styles/global.css` via `@theme {}` :
 --color-ink: #0E0E0E;
 --color-paper: #F5F3EE;
 --color-gold: #C8A646;
+  --color-violet: #5B3A6F;   /* accent secondaire — CTAs secondaires, détails */
 
 --font-display: "Playfair Display", serif;   /* titres Hero, ouvertures section */
 --font-serif: "Cormorant Garamond", serif;   /* textes longs, sections claires */

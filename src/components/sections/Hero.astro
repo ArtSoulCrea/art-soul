@@ -1,5 +1,7 @@
 ---
 const oeuvreHero = "/assets/hero-oeuvre.webp"; // remplacer par le vrai fichier
+import Fissure from "../Fissure.astro";
+import fissureSvg from "../../assets/fissure.svg?raw";
 ---
 
 <section
@@ -39,9 +41,10 @@ const oeuvreHero = "/assets/hero-oeuvre.webp"; // remplacer par le vrai fichier
         ARTSOUL
       </span>
     </h1>
+    <Fissure rawSvg={fissureSvg} class="w-48 lg:w-64 opacity-60" />
 
     <!-- Ligne séparatrice animée -->
-    <div id="hero-line" class="w-24 h-px bg-gold/60 mb-10"></div>
+    <div id="hero-line" class="w-24 h-px bg-violet mb-10"></div>
 
     <p
       id="hero-tagline"
@@ -53,15 +56,15 @@ const oeuvreHero = "/assets/hero-oeuvre.webp"; // remplacer par le vrai fichier
     <div id="hero-ctas" class="flex flex-col sm:flex-row gap-4">
       <a
         href="#contact"
-        class="font-sans text-xs tracking-[0.25em] uppercase font-semibold px-8 py-4 bg-gold text-ink hover:bg-gold/85 transition-colors duration-300 text-center"
+        class="font-sans text-xs tracking-[0.25em] uppercase rounded font-semibold px-8 py-4 bg-gold text-ink hover:bg-gold/85 hover:text-paper transition-colors duration-300 text-center"
       >
-        Me contacter
+        Commander une création
       </a>
       <a
         href="#oeuvres"
-        class="font-sans text-xs tracking-[0.25em] uppercase font-medium px-8 py-4 border border-paper/25 text-paper/80 hover:border-paper/60 hover:text-paper transition-colors duration-300 text-center"
+        class="font-sans text-xs tracking-[0.25em] uppercase rounded font-medium px-8 py-4 border border-violet text-violet hover:bg-violet hover:text-paper transition-colors duration-300 text-center"
       >
-        Voir les œuvres
+        Découvrir mes œuvres
       </a>
     </div>
   </div>
@@ -115,7 +118,7 @@ const oeuvreHero = "/assets/hero-oeuvre.webp"; // remplacer par le vrai fichier
       "-=0.3",
     )
     .from("#hero-tagline", { y: 20, autoAlpha: 0, duration: 0.6 }, "-=0.2")
-    .from("#hero-ctas", { y: 16, autoAlpha: 0, duration: 0.5 }, "-=0.25");
+    .from("#hero-ctas", { autoAlpha: 0, duration: 1 }, "-=0.25");
 
   // ── Animations par breakpoint (gsap.matchMedia) ───────────────────────────
   // Fonctionne comme une media query CSS.

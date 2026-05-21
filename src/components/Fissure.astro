@@ -1,0 +1,69 @@
+---
+/**
+ * Fissure décorative animée — or sur fond sombre.
+ *
+ * Usage :
+ *   import fissureSvg from '../assets/fissure.svg?raw';
+ *   <Fissure rawSvg={fissureSvg} class="absolute top-0 right-8 w-64 opacity-50" />
+ */
+
+interface Props {
+  rawSvg: string;
+  class?: string;
+}
+
+const { rawSvg, class: className = "" } = Astro.props;
+
+// Supprime width/height fixes du SVG pour que w-* Tailwind contrôle la taille
+const svg = rawSvg
+  .replace(/\s+width="[^"]*"/, "")
+  .replace(/\s+height="[^"]*"/, "")
+  .replace("<svg", '<svg width="100%" height="auto"');
+---
+
+<div data-fissure class={className} aria-hidden="true" set:html={svg} />
+
+<script>
+  import { gsap, ScrollTrigger } from "../lib/gsap";
+
+  document.querySelectorAll<HTMLElement>("[data-fissure]").forEach((container) => {
+    const svg = container.querySelector<SVGElement>("svg");
+    if (!svg) return;
+
+    const paths = Array.from(svg.querySelectorAll<SVGPathElement>("path"));
+    if (!paths.length) return;
+
+    paths.forEach((path) => {
+      // stroke-opacity: 0 — les traits sont invisibles dès le départ, sans toucher à opacity
+      // (évite les artefacts de stroke-linecap="round" avec la technique strokeDashoffset)
+      path.setAttribute("stroke-opacity", "0");
+      const len = path.getTotalLength();
+      // strokeDasharray = longueur totale → un seul dash qui couvre tout le tracé
+      // strokeDashoffset = longueur totale → le dash est décalé hors de la zone visible
+      gsap.set(path, { strokeDasharray: len, strokeDashoffset: len });
+    });
+
+    ScrollTrigger.create({
+      trigger: container,
+      start: "top 88%",
+      onEnter: () => {
+        const mainDuration = 1.8;
+        paths.forEach((path, i) => {
+          // Anime le dashoffset vers 0 : le trait se "dessine" de son point de départ
+          gsap.to(path, {
+            strokeDashoffset: 0,
+            duration: i === 0 ? mainDuration : 0.9,
+            ease: "power2.inOut",
+            delay: i === 0 ? 0 : mainDuration * 0.4,
+          });
+          // La couleur apparaît en 0.2s au début du tracé — masque tout artefact résiduel
+          gsap.to(path, {
+            attr: { "stroke-opacity": 1 },
+            duration: 0.2,
+            delay: i === 0 ? 0 : mainDuration * 0.4,
+          });
+        });
+      },
+    });
+  });
+</script>

@@ -15,8 +15,10 @@
 @theme {
   /* Couleurs */
   --color-ink: #0E0E0E;
+  --color-ink-violet: #120D1C;   /* noir teinté violet — sections Œuvres */
   --color-paper: #F5F3EE;
   --color-gold: #C8A646;
+  --color-violet: #5B3A6F;
 
   /* Polices */
   --font-display: "Playfair Display", serif;

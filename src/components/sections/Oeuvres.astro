@@ -1,0 +1,239 @@
+---
+const oeuvres = [
+  {
+    id: "oeuvre-1",
+    title: "Sans titre I",
+    medium: "Huile sur toile",
+    year: "2024",
+    story:
+      "Placeholder — le récit de cette œuvre viendra ici. Les émotions traversées, le déclencheur de la création, ce que l'artiste a voulu capturer ou libérer à travers ce tableau.",
+  },
+  {
+    id: "oeuvre-2",
+    title: "Sans titre II",
+    medium: "Encre sur papier",
+    year: "2023",
+    story:
+      "Placeholder — l'histoire derrière cette œuvre à la plume. Le temps suspendu d'un geste, la façon dont le trait révèle ce que les mots ne peuvent pas dire.",
+  },
+  {
+    id: "oeuvre-3",
+    title: "Sans titre III",
+    medium: "Aquarelle",
+    year: "2024",
+    story:
+      "Placeholder — l'eau et le pigment qui se rencontrent, se fuient, se cherchent. Une œuvre née de l'imprévu autant que de l'intention.",
+  },
+  {
+    id: "oeuvre-4",
+    title: "Sans titre IV",
+    medium: "Pastel sec",
+    year: "2022",
+    story:
+      "Placeholder — la matière granuleuse du pastel, ses strates de couleur, la trace du doigt sur la surface. Une œuvre qui se touche du regard.",
+  },
+  {
+    id: "oeuvre-5",
+    title: "Sans titre V",
+    medium: "Huile sur toile",
+    year: "2023",
+    story:
+      "Placeholder — plusieurs semaines de travail en couches successives. Chaque glacis révèle quelque chose que le précédent dissimulait.",
+  },
+  {
+    id: "oeuvre-6",
+    title: "Sans titre VI",
+    medium: "Encre et aquarelle",
+    year: "2024",
+    story:
+      "Placeholder — deux techniques qui s'opposent et se complètent. La rigueur du trait contre la liberté du lavis.",
+  },
+];
+---
+
+<!-- ============================================================
+     SECTION ŒUVRES
+     ============================================================ -->
+<section id="oeuvres" class="bg-ink py-24 px-6 lg:px-16">
+  <!-- En-tête -->
+  <div class="max-w-6xl mx-auto mb-16">
+    <p class="font-sans text-xs tracking-[0.3em] text-gold uppercase mb-4">
+      Sélection
+    </p>
+    <h2 class="font-display text-5xl lg:text-6xl text-paper">Œuvres</h2>
+    <div class="w-16 h-px bg-violet mt-6"></div>
+  </div>
+
+  <!-- Grille des œuvres -->
+  <div class="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
+    {
+      oeuvres.map((oeuvre) => (
+        <button
+          type="button"
+          data-oeuvre-id={oeuvre.id}
+          data-title={oeuvre.title}
+          data-medium={oeuvre.medium}
+          data-year={oeuvre.year}
+          data-story={oeuvre.story}
+          aria-label={`Voir ${oeuvre.title}`}
+          class="group relative aspect-3/4 overflow-hidden cursor-pointer focus-visible:ring-2 focus-visible:ring-violet  focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+        >
+          <div class="absolute inset-0 bg-paper/10 flex items-center justify-center">
+            <span class="font-sans text-paper/20 text-xs tracking-widest uppercase">
+              Image
+            </span>
+          </div>
+
+          <div class="absolute inset-0 bg-linear-to-t from-ink via-ink/40 to-transparent opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 flex flex-col justify-end p-4 lg:p-6">
+            <p class="font-sans text-gold text-xs tracking-widest uppercase mb-1">
+              {oeuvre.medium}
+            </p>
+            <h3 class="font-display text-paper text-lg lg:text-xl text-left">
+              {oeuvre.title}
+            </h3>
+          </div>
+        </button>
+      ))
+    }
+  </div>
+</section>
+
+<!-- ============================================================
+     MODAL ŒUVRE
+     ============================================================ -->
+<div
+  id="oeuvre-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-oeuvre-title"
+  class="fixed inset-0 z-50 bg-ink/95 hidden overflow-y-auto"
+>
+  <button
+    id="modal-close"
+    type="button"
+    aria-label="Fermer"
+    class="fixed top-6 right-6 z-10 w-10 h-10 flex items-center justify-center text-paper/50 hover:text-paper transition-colors"
+  >
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+    >
+      <path d="M4 4L16 16M16 4L4 16"></path>
+    </svg>
+  </button>
+
+  <div class="min-h-screen flex flex-col lg:flex-row">
+    <!-- Image de l'œuvre -->
+    <div
+      class="lg:w-[58%] flex items-center justify-center p-8 lg:p-16 pt-16 lg:pt-8"
+    >
+      <div
+        id="modal-image-placeholder"
+        class="w-full h-[45vh] lg:h-[80vh] bg-paper/10 flex items-center justify-center"
+      >
+        <span class="font-sans text-paper/20 text-xs tracking-widest uppercase"
+          >Image</span
+        >
+      </div>
+    </div>
+
+    <!-- Récit de l'œuvre -->
+    <div
+      class="lg:w-[42%] flex flex-col justify-center px-8 pb-16 lg:py-16 lg:pr-16"
+    >
+      <p
+        id="modal-medium"
+        class="font-sans text-gold text-xs tracking-[0.3em] uppercase mb-6"
+      >
+      </p>
+      <h2
+        id="modal-oeuvre-title"
+        class="font-display text-4xl lg:text-5xl text-paper mb-8"
+      >
+      </h2>
+      <p
+        id="modal-story"
+        class="font-serif text-xl lg:text-2xl text-paper/75 leading-relaxed"
+      >
+      </p>
+      <p id="modal-year" class="font-sans text-sm text-paper/30 mt-10"></p>
+    </div>
+  </div>
+</div>
+
+<!-- Script : ouverture / fermeture du modal -->
+<script>
+  const modal = document.getElementById("oeuvre-modal");
+  const closeBtn = document.getElementById("modal-close");
+  let triggerBtn: HTMLElement | null = null;
+
+  // Injecte les données de l'œuvre dans le modal et l'affiche
+  function openModal(btn: HTMLElement | null) {
+    if (!btn) return;
+    document.getElementById("modal-medium")!.textContent = btn.dataset.medium!;
+    document.getElementById("modal-oeuvre-title")!.textContent =
+      btn.dataset.title!;
+    document.getElementById("modal-story")!.textContent = btn.dataset.story!;
+    document.getElementById("modal-year")!.textContent = btn.dataset.year!;
+    triggerBtn = btn;
+    if (!modal) return;
+    modal.classList.remove("hidden");
+    document.body.style.overflow = "hidden"; // bloque le scroll de la page derrière
+    if (!closeBtn) return;
+    closeBtn.focus();
+  }
+
+  // Ferme le modal et rend le focus à la card qui l'avait ouvert (accessibilité clavier)
+  function closeModal() {
+    if (!modal) return;
+    modal.classList.add("hidden");
+    document.body.style.overflow = "";
+    triggerBtn?.focus();
+  }
+
+  // Ouvre le modal au clic sur une card
+  document.querySelectorAll("[data-oeuvre-id]").forEach((btn) => {
+    btn.addEventListener("click", () => openModal(btn as HTMLElement));
+  });
+
+  // Fermeture via le bouton ×
+  if (closeBtn) closeBtn.addEventListener("click", closeModal);
+
+  // Fermeture via la touche Escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal && !modal.classList.contains("hidden"))
+      closeModal();
+  });
+
+  // Fermeture via un clic sur le fond du modal (hors contenu)
+  if (modal)
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+</script>
+
+<!-- Script : animation d'apparition des cards au scroll (GSAP) -->
+<script>
+  import { gsap, ScrollTrigger } from "../../lib/gsap";
+
+  const cards = gsap.utils.toArray<HTMLElement>("[data-oeuvre-id]");
+
+  // Les cards partent d'un état invisible + décalé (y: 40, x: 15) et rejoignent leur position naturelle
+  // stagger.amount : 0.6s de délai total réparti entre toutes les cards
+  gsap.from(cards, {
+    autoAlpha: 0,
+    y: 40,
+    x: 15,
+    duration: 0.7,
+    ease: "power2.out",
+    stagger: { amount: 0.6, from: "start" },
+    scrollTrigger: {
+      trigger: "#oeuvres",
+      start: "top 30%",
+    },
+  });
+</script>

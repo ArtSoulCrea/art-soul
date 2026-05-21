@@ -1,0 +1,89 @@
+---
+// Section Intro — texte de transition entre Hero et Œuvres
+// Contenu à remplir par Justine
+---
+
+<!-- ============================================================
+     SECTION INTRO
+     ============================================================ -->
+<section id="intro" class="bg-ink py-24 px-6">
+  <div class="max-w-2xl mx-auto text-center">
+    <!-- Ligne décorative -->
+    <div id="intro-line" class="w-px h-12 bg-gold/30 mx-auto mb-16"></div>
+
+    <!-- Texte principal — les points sont wrappés pour l'animation staggerée -->
+    <p
+      id="intro-text"
+      class="font-serif italic text-2xl lg:text-4xl text-paper/85 leading-relaxed"
+    >
+      Bienvenue dans mon univers, Art Soul, où chaque œuvre exprime une émotion,
+      et raconte sa propre histoire<span id="intro-dots"
+        ><span class="intro-dot">.</span><span class="intro-dot">.</span><span
+          class="intro-dot">.</span
+        ></span
+      >
+    </p>
+
+    <!-- Signature -->
+    <p
+      id="intro-signature"
+      class="font-sans text-xs tracking-[0.3em] text-paper/30 uppercase mt-12"
+    >
+      Justine — Artiste émotionnelle
+    </p>
+  </div>
+</section>
+
+<style>
+  .intro-dot {
+    display: inline-block;
+  }
+</style>
+
+<script>
+  import { gsap, ScrollTrigger } from "../../lib/gsap";
+
+  // ── Ce que fait cette animation ─────────────────────────────────────────────
+  // ScrollTrigger déclenche une timeline quand la section entre dans le viewport.
+  //
+  // 1. La ligne dorée grandit de haut en bas (scaleY 0→1, transformOrigin "top")
+  // 2. Le texte monte avec un fade (y: 20 → 0, autoAlpha 0→1)
+  // 3. La signature apparaît en fondu
+  // 4. Les trois points apparaissent un par un (stagger 0.3s)
+  //    → la phrase se "pose" lentement, ton narratif et suspendu
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: "#intro",
+      start: "top 70%",
+    },
+  });
+
+  tl.from("#intro-line", {
+    scaleY: 0,
+    transformOrigin: "top",
+    duration: 0.6,
+    ease: "power2.inOut",
+  })
+    .from(
+      "#intro-text",
+      { y: 20, autoAlpha: 0, duration: 0.8, ease: "power2.out" },
+      "-=0.1",
+    )
+    .from(
+      "#intro-signature",
+      { autoAlpha: 0, duration: 0.6, ease: "power2.out" },
+      "-=0.3",
+    )
+    .from(
+      ".intro-dot",
+      {
+        autoAlpha: 0,
+        y: 6,
+        duration: 0.4,
+        stagger: 0.5,
+        ease: "power2.out",
+      },
+      "-=0.1",
+    );
+</script>
