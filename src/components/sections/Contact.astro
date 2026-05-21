@@ -1,6 +1,258 @@
 ---
-// Section Contact — squelette (structure à venir)
+// Section Contact — formulaire → /api/contact → Resend
 ---
-<section id="contact" class="min-h-screen bg-ink flex items-center justify-center px-8">
-  <h2 class="font-display text-5xl text-paper">Contact</h2>
+
+<!-- ============================================================
+     SECTION CONTACT
+     ============================================================ -->
+<section id="contact" class="bg-ink py-24 lg:py-32 px-6">
+  <div class="max-w-lg mx-auto">
+    <!-- En-tête -->
+    <div class="mb-16">
+      <p class="font-sans text-xs tracking-[0.3em] text-gold uppercase mb-4">
+        Contact
+      </p>
+      <h2 class="font-display text-5xl lg:text-6xl text-paper mb-6">
+        Écrivons-nous
+      </h2>
+      <p class="font-serif italic text-paper/60 text-lg">
+        Pour une commande, une question, ou simplement pour partager ce que vous
+        avez ressenti.
+      </p>
+    </div>
+
+    <!-- Formulaire -->
+    <form id="contact-form" novalidate>
+      <div class="mb-10">
+        <label
+          for="contact-name"
+          class="font-sans text-xs tracking-[0.2em] uppercase text-paper/40 mb-3 block"
+        >
+          Nom
+        </label>
+        <input
+          type="text"
+          id="contact-name"
+          name="name"
+          required
+          autocomplete="name"
+          class="contact-field bg-transparent border-b border-paper/20 focus:border-gold/50 outline-none w-full py-3 text-paper font-sans text-base placeholder:text-paper/20 transition-colors duration-300"
+          placeholder="Votre nom"
+        />
+        <p class="field-error font-sans text-xs text-red-400 mt-2 hidden"></p>
+      </div>
+
+      <div class="mb-10">
+        <label
+          for="contact-email"
+          class="font-sans text-xs tracking-[0.2em] uppercase text-paper/40 mb-3 block"
+        >
+          Email
+        </label>
+        <input
+          type="email"
+          id="contact-email"
+          name="email"
+          required
+          autocomplete="email"
+          class="contact-field bg-transparent border-b border-paper/20 focus:border-gold/50 outline-none w-full py-3 text-paper font-sans text-base placeholder:text-paper/20 transition-colors duration-300"
+          placeholder="votre@email.com"
+        />
+        <p class="field-error font-sans text-xs text-red-400 mt-2 hidden"></p>
+      </div>
+
+      <div class="mb-12">
+        <label
+          for="contact-message"
+          class="font-sans text-xs tracking-[0.2em] uppercase text-paper/40 mb-3 block"
+        >
+          Message
+        </label>
+        <textarea
+          id="contact-message"
+          name="message"
+          required
+          rows="5"
+          class="contact-field bg-transparent border-b border-paper/20 focus:border-gold/50 outline-none w-full py-3 text-paper font-sans text-base placeholder:text-paper/20 transition-colors duration-300 resize-none"
+          placeholder="Votre message..."></textarea>
+        <p class="field-error font-sans text-xs text-red-400 mt-2 hidden"></p>
+      </div>
+
+      <!-- Erreur globale (échec réseau / serveur) -->
+      <p id="contact-error" class="font-sans text-sm text-red-400 mb-6 hidden">
+      </p>
+
+      <button
+        type="submit"
+        id="contact-submit"
+        class="font-sans text-xs tracking-[0.25em] uppercase font-semibold px-10 py-4 block mx-auto rounded bg-gold text-ink hover:bg-gold/85 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Envoyer
+      </button>
+    </form>
+
+    <!-- État succès -->
+    <div id="contact-success" class="hidden py-8">
+      <div class="w-px h-12 mx-auto bg-violet mb-10"></div>
+      <p class="font-serif italic text-2xl text-paper/85 mb-4">
+        Votre message est bien parti. Je vous répondrai dans les meilleurs
+        délais.
+      </p>
+    </div>
+  </div>
 </section>
+
+<style>
+  /* Bordure rouge sur les champs invalides après tentative d'envoi */
+  .contact-field.invalid {
+    border-color: rgb(248 113 113);
+  }
+</style>
+
+<!-- Script : animation d'entrée (GSAP ScrollTrigger) -->
+<script>
+  import { gsap, ScrollTrigger } from "../../lib/gsap";
+
+  // ── Ce que fait cette animation ──────────────────────────────────────────
+  // Une timeline ScrollTrigger qui anime l'en-tête puis le formulaire.
+  // Les champs sont ciblés via "#contact-form > div" (les 3 wrappers directs)
+  // et animés en stagger : chacun arrive 0.1s après le précédent.
+
+  const tl = gsap.timeline({
+    scrollTrigger: { trigger: "#contact", start: "top 70%" },
+  });
+
+  tl.from("#contact h2", {
+    y: 30,
+    autoAlpha: 0,
+    duration: 0.8,
+    ease: "power2.out",
+  })
+    .from(
+      "#contact .font-serif.italic",
+      { y: 15, autoAlpha: 0, duration: 0.6, ease: "power2.out" },
+      "-=0.4",
+    )
+    .from(
+      "#contact-form > div",
+      {
+        y: 24,
+        autoAlpha: 0,
+        duration: 0.6,
+        ease: "power2.out",
+        stagger: 0.12,
+      },
+      "-=0.2",
+    )
+    .from(
+      "#contact-submit",
+      { autoAlpha: 0, duration: 0.5, ease: "power2.out" },
+      "-=0.2",
+    );
+</script>
+
+<!-- Script : validation côté client + soumission fetch -->
+<script>
+  const form = document.getElementById(
+    "contact-form",
+  ) as HTMLFormElement | null;
+  const submitBtn = document.getElementById(
+    "contact-submit",
+  ) as HTMLButtonElement | null;
+  const globalError = document.getElementById(
+    "contact-error",
+  ) as HTMLElement | null;
+  const successEl = document.getElementById(
+    "contact-success",
+  ) as HTMLElement | null;
+
+  // ── Validation ────────────────────────────────────────────────────────────
+
+  function showFieldError(field: Element, message: string) {
+    field.classList.add("invalid");
+    const errorEl = field.nextElementSibling as HTMLElement | null;
+    if (!errorEl) return;
+    errorEl.textContent = message;
+    errorEl.classList.remove("hidden");
+  }
+
+  function clearFieldError(field: Element) {
+    field.classList.remove("invalid");
+    const errorEl = field.nextElementSibling as HTMLElement | null;
+    if (!errorEl) return;
+    errorEl.textContent = "";
+    errorEl.classList.add("hidden");
+  }
+
+  function validateForm(): boolean {
+    const name = document.getElementById("contact-name") as HTMLInputElement;
+    const email = document.getElementById("contact-email") as HTMLInputElement;
+    const message = document.getElementById(
+      "contact-message",
+    ) as HTMLTextAreaElement;
+    let valid = true;
+
+    if (!name.value.trim()) {
+      showFieldError(name, "Votre nom est requis.");
+      valid = false;
+    }
+
+    if (!email.value.trim()) {
+      showFieldError(email, "Votre adresse email est requise.");
+      valid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+      showFieldError(email, "Cette adresse email ne semble pas valide.");
+      valid = false;
+    }
+
+    if (!message.value.trim()) {
+      showFieldError(message, "Un message est requis.");
+      valid = false;
+    } else if (message.value.trim().length < 10) {
+      showFieldError(message, "Votre message est trop court.");
+      valid = false;
+    }
+
+    return valid;
+  }
+
+  // Efface l'erreur d'un champ dès que l'utilisateur le modifie
+  document.querySelectorAll<HTMLElement>(".contact-field").forEach((field) => {
+    field.addEventListener("input", () => clearFieldError(field));
+  });
+
+  // ── Soumission ────────────────────────────────────────────────────────────
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!submitBtn || !globalError || !successEl || !form) return;
+
+    globalError.classList.add("hidden");
+
+    if (!validateForm()) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Envoi en cours...";
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        body: new FormData(form),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Une erreur est survenue.");
+      }
+
+      form.classList.add("hidden");
+      successEl.classList.remove("hidden");
+    } catch (err) {
+      globalError.textContent =
+        err instanceof Error ? err.message : "Une erreur est survenue.";
+      globalError.classList.remove("hidden");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Envoyer";
+    }
+  });
+</script>
