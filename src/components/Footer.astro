@@ -1,0 +1,233 @@
+---
+// Footer — copyright, réseaux sociaux, liens légaux (modals)
+const year = new Date().getFullYear();
+---
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="bg-ink border-t border-paper/10 py-12 px-6">
+  <div class="max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8 text-center lg:text-left">
+
+    <!-- Nom + copyright -->
+    <div>
+      <p class="font-display text-paper text-lg mb-1">Justine</p>
+      <p class="font-sans text-xs text-paper/25">© {year} Art Soul. Tous droits réservés.</p>
+    </div>
+
+    <!-- Réseaux sociaux -->
+    <div class="flex items-center gap-6">
+
+      <!-- Instagram -->
+      <a
+        href="#"
+        aria-label="Instagram"
+        class="text-paper/40 hover:text-paper transition-colors duration-300"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+
+      <!-- LinkedIn -->
+      <a
+        href="#"
+        aria-label="LinkedIn"
+        class="text-paper/40 hover:text-paper transition-colors duration-300"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+          <rect x="2" y="9" width="4" height="12"/>
+          <circle cx="4" cy="4" r="2"/>
+        </svg>
+      </a>
+
+    </div>
+
+    <!-- Liens légaux — ouvrent un modal -->
+    <div class="flex flex-wrap justify-center lg:justify-end gap-x-6 gap-y-2">
+      <button
+        data-legal="mentions"
+        class="font-sans text-xs text-paper/25 hover:text-paper/60 transition-colors duration-300 cursor-pointer bg-transparent border-none"
+      >
+        Mentions légales
+      </button>
+      <button
+        data-legal="confidentialite"
+        class="font-sans text-xs text-paper/25 hover:text-paper/60 transition-colors duration-300 cursor-pointer bg-transparent border-none"
+      >
+        Politique de confidentialité
+      </button>
+    </div>
+
+  </div>
+</footer>
+
+<!-- ============================================================
+     MODALS LÉGAUX
+     ============================================================ -->
+
+<!-- Modal Mentions légales -->
+<div
+  id="modal-mentions"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-mentions-title"
+  class="fixed inset-0 z-50 hidden bg-ink/98 overflow-y-auto"
+>
+  <div class="max-w-2xl mx-auto px-6 py-16">
+    <!-- Bouton fermeture -->
+    <button
+      data-close-modal
+      aria-label="Fermer"
+      class="block ml-auto mb-12 text-paper/40 hover:text-paper transition-colors duration-300"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+
+    <!-- Contenu -->
+    <h2 id="modal-mentions-title" class="font-display text-4xl text-paper mb-12">Mentions légales</h2>
+
+    <div class="font-serif text-paper/70 text-lg leading-relaxed space-y-8">
+      <section>
+        <h3 class="font-sans text-xs tracking-[0.2em] uppercase text-gold mb-4">Éditeur du site</h3>
+        <p>Art Soul — Justine<br>
+        [Adresse à compléter]<br>
+        [Ville, Code postal]<br>
+        Email : [email à compléter]</p>
+      </section>
+
+      <section>
+        <h3 class="font-sans text-xs tracking-[0.2em] uppercase text-gold mb-4">Hébergeur</h3>
+        <p>Vercel Inc.<br>
+        440 N Barranca Ave #4133<br>
+        Covina, CA 91723, États-Unis<br>
+        <a href="https://vercel.com" class="text-gold/70 hover:text-gold transition-colors">vercel.com</a></p>
+      </section>
+
+      <section>
+        <h3 class="font-sans text-xs tracking-[0.2em] uppercase text-gold mb-4">Propriété intellectuelle</h3>
+        <p>L'ensemble des œuvres, textes et visuels présents sur ce site sont la propriété exclusive de l'artiste. Toute reproduction, même partielle, est interdite sans autorisation préalable.</p>
+      </section>
+
+      <section>
+        <h3 class="font-sans text-xs tracking-[0.2em] uppercase text-gold mb-4">Responsabilité</h3>
+        <p>L'artiste s'efforce de maintenir les informations du site à jour et exactes, sans garantie d'exhaustivité ni d'absence d'erreur.</p>
+      </section>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Politique de confidentialité -->
+<div
+  id="modal-confidentialite"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-confidentialite-title"
+  class="fixed inset-0 z-50 hidden bg-ink/98 overflow-y-auto"
+>
+  <div class="max-w-2xl mx-auto px-6 py-16">
+    <!-- Bouton fermeture -->
+    <button
+      data-close-modal
+      aria-label="Fermer"
+      class="block ml-auto mb-12 text-paper/40 hover:text-paper transition-colors duration-300"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+
+    <!-- Contenu -->
+    <h2 id="modal-confidentialite-title" class="font-display text-4xl text-paper mb-12">Politique de confidentialité</h2>
+
+    <div class="font-serif text-paper/70 text-lg leading-relaxed space-y-8">
+      <section>
+        <h3 class="font-sans text-xs tracking-[0.2em] uppercase text-gold mb-4">Données collectées</h3>
+        <p>Ce site collecte uniquement les données que vous saisissez volontairement dans le formulaire de contact : nom, adresse email et message. Aucun cookie de tracking ni outil d'analyse tiers n'est utilisé.</p>
+      </section>
+
+      <section>
+        <h3 class="font-sans text-xs tracking-[0.2em] uppercase text-gold mb-4">Utilisation des données</h3>
+        <p>Les informations transmises via le formulaire de contact sont utilisées exclusivement pour répondre à votre demande. Elles ne sont pas cédées à des tiers.</p>
+      </section>
+
+      <section>
+        <h3 class="font-sans text-xs tracking-[0.2em] uppercase text-gold mb-4">Conservation</h3>
+        <p>Vos données sont conservées le temps nécessaire au traitement de votre demande, puis supprimées.</p>
+      </section>
+
+      <section>
+        <h3 class="font-sans text-xs tracking-[0.2em] uppercase text-gold mb-4">Vos droits</h3>
+        <p>Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour exercer ces droits, contactez-nous via le formulaire de contact.</p>
+      </section>
+
+      <section>
+        <h3 class="font-sans text-xs tracking-[0.2em] uppercase text-gold mb-4">Responsable du traitement</h3>
+        <p>Art Soul — Justine<br>[Email à compléter]</p>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── Ouverture des modals légaux ────────────────────────────────────────────
+
+  const modals: Record<string, HTMLElement | null> = {
+    mentions: document.getElementById("modal-mentions"),
+    confidentialite: document.getElementById("modal-confidentialite"),
+  };
+
+  let lastFocused: HTMLElement | null = null;
+
+  function openModal(key: string) {
+    const modal = modals[key];
+    if (!modal) return;
+    lastFocused = document.activeElement as HTMLElement;
+    modal.classList.remove("hidden");
+    document.body.classList.add("overflow-hidden");
+    // Focus le bouton de fermeture
+    const closeBtn = modal.querySelector<HTMLElement>("[data-close-modal]");
+    closeBtn?.focus();
+  }
+
+  function closeModal(modal: HTMLElement) {
+    modal.classList.add("hidden");
+    document.body.classList.remove("overflow-hidden");
+    lastFocused?.focus();
+  }
+
+  // Boutons d'ouverture (dans le footer)
+  document.querySelectorAll<HTMLElement>("[data-legal]").forEach((btn) => {
+    btn.addEventListener("click", () => openModal(btn.dataset.legal!));
+  });
+
+  // Boutons de fermeture (dans chaque modal)
+  document.querySelectorAll<HTMLElement>("[data-close-modal]").forEach((btn) => {
+    const modal = btn.closest<HTMLElement>("[role='dialog']");
+    if (!modal) return;
+    btn.addEventListener("click", () => closeModal(modal));
+  });
+
+  // Fermeture via Escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    Object.values(modals).forEach((modal) => {
+      if (modal && !modal.classList.contains("hidden")) closeModal(modal);
+    });
+  });
+
+  // Fermeture au clic sur le fond (hors contenu)
+  Object.values(modals).forEach((modal) => {
+    if (!modal) return;
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal(modal);
+    });
+  });
+</script>

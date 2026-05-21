@@ -1,0 +1,85 @@
+---
+// Navbar fixe — transparente au départ, fond ink au scroll
+// Le bouton Contact n'apparaît qu'une fois le Hero (et ses CTAs) sorti du viewport
+---
+
+<!-- ============================================================
+     NAVBAR
+     ============================================================ -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-40">
+  <div
+    class="max-w-6xl mx-auto px-6 lg:px-16 flex items-center justify-between h-16"
+  >
+    <!-- Logo + nom -->
+    <button
+      data-scroll-to="hero"
+      class="flex items-center gap-3 group bg-transparent border-none cursor-pointer"
+      aria-label="Art Soul — retour en haut"
+    >
+      <img
+        src="/assets/logo.webp"
+        alt=""
+        aria-hidden="true"
+        class="h-12 w-auto brightness-0 invert"
+      />
+      <span class="font-display text-paper text-lg leading-none">Justine</span>
+    </button>
+
+    <!-- CTA Contact — invisible jusqu'à ce que le Hero sorte du viewport -->
+    <button
+      id="nav-cta"
+      data-scroll-to="contact"
+      class="font-sans text-xs tracking-[0.3em] uppercase rounded text-gold border border-gold/30 px-5 py-2 hover:border-gold hover:text-gold/80 transition-colors duration-300 bg-transparent cursor-pointer"
+      style="visibility: hidden; opacity: 0"
+    >
+      Contact
+    </button>
+  </div>
+
+  <!-- Ligne gold fine — s'affiche au scroll -->
+  <div
+    id="nav-border-line"
+    class="h-px bg-linear-to-r from-transparent via-gold/25 to-transparent opacity-0"
+  >
+  </div>
+</nav>
+
+<style>
+  #navbar {
+    background-color: transparent;
+    transition:
+      background-color 0.4s ease,
+      backdrop-filter 0.4s ease;
+  }
+  #navbar.scrolled {
+    background-color: rgba(14, 14, 14, 0.92);
+    backdrop-filter: blur(10px);
+  }
+  #navbar.scrolled #nav-border-line {
+    opacity: 1;
+    transition: opacity 0.4s ease;
+  }
+</style>
+
+<script>
+  import { gsap, ScrollTrigger } from "../lib/gsap";
+
+  const navbar = document.getElementById("navbar");
+
+  // Fond ink + bordure gold quand le Hero sort du viewport
+  ScrollTrigger.create({
+    trigger: "#hero",
+    start: "bottom top",
+    onEnter: () => navbar?.classList.add("scrolled"),
+    onLeaveBack: () => navbar?.classList.remove("scrolled"),
+  });
+
+  // Bouton Contact : apparaît quand les CTAs du Hero sortent du viewport
+  ScrollTrigger.create({
+    trigger: "#hero-ctas",
+    start: "bottom top",
+    onEnter: () =>
+      gsap.to("#nav-cta", { autoAlpha: 1, duration: 0.4, ease: "power2.out" }),
+    onLeaveBack: () => gsap.to("#nav-cta", { autoAlpha: 0, duration: 0.3 }),
+  });
+</script>

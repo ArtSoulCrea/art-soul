@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
 
 interface Props {
   title?: string;
@@ -22,6 +24,18 @@ const {
     <title>{title}</title>
   </head>
   <body>
+    <Navbar />
     <slot />
+    <Footer />
   </body>
 </html>
+
+<script>
+  // Scroll fluide sans modifier l'URL — remplace tous les href="#id"
+  document.addEventListener("click", (e) => {
+    const btn = (e.target as Element).closest<HTMLElement>("[data-scroll-to]");
+    if (!btn) return;
+    const target = document.getElementById(btn.dataset.scrollTo!);
+    target?.scrollIntoView({ behavior: "smooth" });
+  });
+</script>
