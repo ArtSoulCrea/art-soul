@@ -180,7 +180,7 @@ const oeuvres = [
         src=""
         alt=""
         draggable="false"
-        class="w-full h-[45vh] lg:h-[80vh] object-contain pointer-events-none select-none"
+        class="w-full h-[45vh] lg:h-[80vh] object-contain pointer-events-none select-none transition-opacity duration-300"
       />
     </div>
 
@@ -223,8 +223,10 @@ const oeuvres = [
     document.getElementById("modal-story")!.textContent = btn.dataset.story!;
     document.getElementById("modal-year")!.textContent = btn.dataset.year!;
     const img = document.getElementById("modal-image") as HTMLImageElement;
+    img.style.opacity = "0";
     img.src = btn.dataset.image!;
     img.alt = btn.dataset.title!;
+    img.onload = () => { img.style.opacity = "1"; };
     triggerBtn = btn;
     if (!modal) return;
     modal.classList.remove("hidden");
