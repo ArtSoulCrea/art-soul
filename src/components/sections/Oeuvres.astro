@@ -89,25 +89,79 @@ const oeuvres = [
   </div>
 
   <!-- Texte d'introduction aux œuvres -->
-  <div
-    id="oeuvres-intro"
-    class="max-w-2xl mx-auto mb-20 space-y-6 font-serif italic text-paper/70 text-xl lg:text-2xl leading-relaxed"
-  >
-    <p>
-      J'assimilie mon style au kintsugi, l'art japonais qui répare les objets
-      brisés avec de l'or, pour transformer les fissures en éléments de beauté.
-      C'est ce que je fais avec mes œuvres.
+  <div id="oeuvres-intro" class="max-w-xl mx-auto mb-20 text-center">
+    <!-- Mouvement 1 : le kintsugi -->
+    <div class="mb-10">
+      <p
+        class="font-serif italic text-paper/75 text-xl lg:text-2xl leading-relaxed mb-4"
+      >
+        Mon univers est inspiré du kintsugi, cet art japonais qui répare les
+        objets brisés avec de l'or.
+      </p>
+      <p
+        class="font-serif italic text-paper/45 text-lg lg:text-xl leading-relaxed mb-2"
+      >
+        L'idée m'a toujours touchée.
+      </p>
+      <p
+        class="font-serif italic text-paper/75 text-xl lg:text-2xl leading-relaxed mb-2"
+      >
+        Parce qu'au lieu de cacher les fissures… il les révèle.
+      </p>
+      <p
+        class="font-serif italic text-paper/45 text-lg lg:text-xl leading-relaxed"
+      >
+        Il les transforme.
+      </p>
+    </div>
+
+    <!-- Pont -->
+    <p
+      class="font-sans text-xs lg:text-sm tracking-[0.25em] uppercase text-gold/80 mb-10"
+    >
+      C'est ce que je cherche à raconter avec mes œuvres.
     </p>
-    <p>
-      Chacune représente une émotion, un combat ou un fragment de vie. Si l'une
-      d'elles résonne en vous, vous pouvez l'adopter. Accueillir une œuvre,
-      c'est se donner les moyens de faire face à ses difficultés, et accepter
-      d'avancer.
-    </p>
+
+    <!-- Mouvement 2 : les émotions -->
+    <div class="mb-10">
+      <p
+        class="font-serif italic text-paper/75 text-xl lg:text-2xl leading-relaxed mb-4"
+      >
+        Chacune porte une émotion, un combat ou un fragment de vie.
+      </p>
+      <p class="font-serif italic text-paper/45 text-lg lg:text-xl mb-1">
+        Une blessure.
+      </p>
+      <p class="font-serif italic text-paper/45 text-lg lg:text-xl mb-1">
+        Une reconstruction.
+      </p>
+      <p class="font-serif italic text-paper/45 text-lg lg:text-xl">
+        Une lumière qui reste.
+      </p>
+    </div>
+
+    <!-- Mouvement 3 : l'invitation -->
+    <div>
+      <p
+        class="font-serif italic text-paper/70 text-xl lg:text-2xl leading-relaxed mb-3"
+      >
+        Si l'une d'elles résonne en vous, vous pouvez l'adopter.
+      </p>
+      <p
+        class="font-serif italic text-paper/45 text-lg lg:text-xl leading-relaxed"
+      >
+        Parce qu'adopter une œuvre, ce n'est pas seulement accueillir un dessin.<br
+        />
+        C'est accueillir une histoire.
+      </p>
+    </div>
   </div>
 
   <!-- Grille des œuvres -->
-  <div class="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
+  <div
+    id="oeuvres-grid"
+    class="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4"
+  >
     {
       oeuvres.map((oeuvre) => (
         <button
@@ -123,6 +177,7 @@ const oeuvres = [
         >
           <Image
             src={oeuvre.image}
+            loading="lazy"
             alt={oeuvre.title}
             class="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
             draggable="false"
@@ -226,7 +281,9 @@ const oeuvres = [
     img.style.opacity = "0";
     img.src = btn.dataset.image!;
     img.alt = btn.dataset.title!;
-    img.onload = () => { img.style.opacity = "1"; };
+    img.onload = () => {
+      img.style.opacity = "1";
+    };
     triggerBtn = btn;
     if (!modal) return;
     modal.classList.remove("hidden");
@@ -270,14 +327,30 @@ const oeuvres = [
   });
 </script>
 
-<!-- Script : animation d'apparition des cards au scroll (GSAP) -->
+<!-- Script : animations GSAP (intro + cards) -->
 <script>
   import { gsap, ScrollTrigger } from "../../lib/gsap";
 
+  // ── Intro : chaque ligne apparaît avec un stagger de 0.12s ──────────────
+  // "#oeuvres-intro p" cible tous les <p> dans l'ordre du DOM,
+  // ce qui correspond à l'ordre de lecture naturel du texte.
+  // Le ScrollTrigger se déclenche quand l'intro entre dans le viewport.
+  gsap.from("#oeuvres-intro p", {
+    autoAlpha: 0,
+    y: 12,
+    duration: 0.6,
+    ease: "power2.out",
+    stagger: 0.15,
+    scrollTrigger: {
+      trigger: "#oeuvres-intro",
+      start: "top 85%",
+    },
+  });
+
+  // ── Cards : apparition en diagonale au scroll ────────────────────────────
+  // stagger.amount : 0.6s de délai total réparti entre toutes les cards
   const cards = gsap.utils.toArray<HTMLElement>("[data-oeuvre-id]");
 
-  // Les cards partent d'un état invisible + décalé (y: 40, x: 15) et rejoignent leur position naturelle
-  // stagger.amount : 0.6s de délai total réparti entre toutes les cards
   gsap.from(cards, {
     autoAlpha: 0,
     y: 40,
@@ -286,8 +359,8 @@ const oeuvres = [
     ease: "power2.out",
     stagger: { amount: 0.6, from: "start" },
     scrollTrigger: {
-      trigger: "#oeuvres",
-      start: "top 30%",
+      trigger: "#oeuvres-grid",
+      start: "top 85%",
     },
   });
 </script>
