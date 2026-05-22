@@ -8,7 +8,7 @@
 <section id="commandes" class="bg-paper py-24 lg:py-32 px-6">
   <div class="max-w-2xl mx-auto">
     <!-- En-tête -->
-    <div class="mb-16">
+    <div id="commandes-header" class="mb-16">
       <p class="font-sans text-xs tracking-[0.3em] text-gold uppercase mb-6">
         Commandes émotionnelles
       </p>
@@ -19,7 +19,7 @@
     </div>
 
     <!-- Introduction -->
-    <div class="mb-16 space-y-6">
+    <div id="commandes-intro" class="mb-16 space-y-6">
       <p class="font-serif text-ink/75 text-2xl leading-relaxed text-center">
         Je crée l'<span class="font-semibold text-gold/80">œuvre unique</span>,
         qui fait écho à votre histoire.
@@ -31,7 +31,7 @@
     </div>
 
     <!-- Process -->
-    <div class="mb-16 space-y-10 relative py-8">
+    <div id="commandes-process" class="mb-16 space-y-10 relative py-8">
       <!-- Logo flouté en arrière-plan -->
       <img
         src="/assets/sceau.webp"
@@ -97,10 +97,41 @@
 
     <!-- CTA -->
     <button
+      id="commandes-cta"
       data-scroll-to="contact"
-      class="font-sans text-xs tracking-[0.25em] uppercase font-semibold px-10 py-4 rounded bg-ink text-paper hover:bg-ink/80 transition-colors duration-300 cursor-pointer border-none"
+      class="font-sans text-xs tracking-[0.25em] uppercase font-semibold px-10 py-4 rounded bg-ink text-paper hover:bg-ink/80 transition-colors duration-300 cursor-pointer border-none mx-auto block"
     >
       Partagez votre histoire
     </button>
   </div>
 </section>
+
+<script>
+  import { gsap, ScrollTrigger } from "../../lib/gsap";
+
+  const tl = gsap.timeline({
+    scrollTrigger: { trigger: "#commandes", start: "top 70%" },
+  });
+
+  tl.from("#commandes-header h2", {
+    y: 30,
+    autoAlpha: 0,
+    duration: 0.7,
+    ease: "power2.out",
+  })
+    .from(
+      "#commandes-intro p",
+      { y: 15, autoAlpha: 0, duration: 0.5, ease: "power2.out", stagger: 0.15 },
+      "-=0.3",
+    )
+    .from(
+      "#commandes-process .flex",
+      { y: 20, autoAlpha: 0, duration: 0.5, ease: "power2.out", stagger: 0.15 },
+      "-=0.2",
+    )
+    .from(
+      "#commandes-cta",
+      { autoAlpha: 0, duration: 0.5, ease: "power2.out" },
+      "-=0.1",
+    );
+</script>

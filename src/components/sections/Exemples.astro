@@ -1,0 +1,295 @@
+---
+import { Image } from "astro:assets";
+import img1 from "../../assets/creations/image1.webp";
+import img2 from "../../assets/creations/image2.webp";
+import img3 from "../../assets/creations/image3.webp";
+import img4 from "../../assets/creations/image4.webp";
+import img5 from "../../assets/creations/image5.webp";
+import img6 from "../../assets/creations/image6.webp";
+
+const exemples = [
+  {
+    id: "ex-1",
+    image: img1,
+    description:
+      "Description de la réalisation — contexte, émotion, ce qui a guidé la création.",
+  },
+  {
+    id: "ex-2",
+    image: img2,
+    description:
+      "Description de la réalisation — contexte, émotion, ce qui a guidé la création.",
+  },
+  {
+    id: "ex-3",
+    image: img3,
+    description:
+      "Description de la réalisation — contexte, émotion, ce qui a guidé la création.",
+  },
+  {
+    id: "ex-4",
+    image: img4,
+    description:
+      "Description de la réalisation — contexte, émotion, ce qui a guidé la création.",
+  },
+  {
+    id: "ex-5",
+    image: img5,
+    description:
+      "Description de la réalisation — contexte, émotion, ce qui a guidé la création.",
+  },
+  {
+    id: "ex-6",
+    image: img6,
+    description:
+      "Description de la réalisation — contexte, émotion, ce qui a guidé la création.",
+  },
+];
+---
+
+<!-- ============================================================
+     SECTION EXEMPLES DE RÉALISATIONS
+     ============================================================ -->
+<section id="exemples" class="bg-ink py-24 overflow-hidden">
+  <!-- En-tête -->
+  <div class="px-6 lg:px-16 max-w-6xl mx-auto mb-16">
+    <p class="font-sans text-xs tracking-[0.3em] text-gold uppercase mb-4">
+      Commandes émotionnelles
+    </p>
+    <h2 class="font-display text-5xl lg:text-6xl text-paper">
+      Quelques réalisations
+    </h2>
+    <div class="w-16 h-px bg-violet mt-6"></div>
+  </div>
+
+  <!-- Indice tactile — mobile uniquement -->
+  <p class="lg:hidden font-sans text-xs text-paper/30 text-center mb-8 tracking-wide px-6">
+    Cliquez sur une réalisation pour la révéler
+  </p>
+
+  <!-- Carousel wrapper -->
+  <div class="relative">
+    <!-- Track scrollable -->
+    <div
+      id="exemples-track"
+      class="flex gap-5 overflow-x-auto scroll-smooth pl-6 lg:pl-16 pr-6 lg:pr-16 pb-2"
+    >
+      {
+        exemples.map((ex) => (
+          <div class="shrink-0 w-[80vw] sm:w-[55vw] lg:w-[32%]">
+            <button
+              type="button"
+              data-exemple-id={ex.id}
+              data-description={ex.description}
+              data-image={ex.image.src}
+              aria-label="Voir la réalisation"
+              class="group relative w-full aspect-3/4 overflow-hidden cursor-pointer block focus-visible:ring-2 focus-visible:ring-violet focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+            >
+              <Image
+                src={ex.image}
+                alt=""
+                loading="lazy"
+                class="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+                draggable="false"
+              />
+
+              <!-- Hover : ombre dégradée + description (3 lignes max) -->
+              <div class="absolute inset-0 bg-linear-to-t from-ink via-ink/60 to-transparent opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 flex flex-col justify-end p-4 lg:p-5">
+                <p class="font-serif italic text-paper/80 text-sm leading-relaxed line-clamp-3">
+                  {ex.description}
+                </p>
+              </div>
+            </button>
+          </div>
+        ))
+      }
+
+      <!-- Spacer final -->
+      <div class="shrink-0 w-6 lg:w-16" aria-hidden="true"></div>
+    </div>
+
+    <!-- Flèches desktop -->
+    <button
+      id="exemples-prev"
+      aria-label="Précédent"
+      class="hidden lg:flex absolute left-4 top-[40%] -translate-y-1/2 w-10 h-10 items-center justify-center text-paper/40 hover:text-paper transition-colors duration-300 bg-ink/80 rounded-full"
+    >
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M12 4L6 10L12 16"/>
+      </svg>
+    </button>
+
+    <button
+      id="exemples-next"
+      aria-label="Suivant"
+      class="hidden lg:flex absolute right-4 top-[40%] -translate-y-1/2 w-10 h-10 items-center justify-center text-paper/40 hover:text-paper transition-colors duration-300 bg-ink/80 rounded-full"
+    >
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M8 4L14 10L8 16"/>
+      </svg>
+    </button>
+  </div>
+</section>
+
+<style>
+  #exemples-track {
+    scrollbar-width: none;
+  }
+  #exemples-track::-webkit-scrollbar {
+    display: none;
+  }
+</style>
+
+<!-- ============================================================
+     MODAL EXEMPLE
+     ============================================================ -->
+<div
+  id="exemple-modal"
+  role="dialog"
+  aria-modal="true"
+  class="fixed inset-0 z-50 bg-ink/95 hidden overflow-y-auto"
+>
+  <button
+    id="exemple-modal-close"
+    type="button"
+    aria-label="Fermer"
+    class="fixed top-6 right-6 z-10 w-10 h-10 flex items-center justify-center text-paper/50 hover:text-paper transition-colors cursor-pointer"
+  >
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+    >
+      <path d="M4 4L16 16M16 4L4 16"></path>
+    </svg>
+  </button>
+
+  <div
+    class="min-h-screen flex flex-col items-center justify-center px-6 py-20 gap-8"
+  >
+    <!-- Image centrée -->
+    <img
+      id="exemple-modal-image"
+      src=""
+      alt=""
+      draggable="false"
+      class="w-full max-w-2xl max-h-[60vh] object-contain pointer-events-none select-none transition-opacity duration-300"
+    />
+
+    <!-- Description -->
+    <p
+      id="exemple-modal-description"
+      class="font-serif italic text-paper/70 text-lg lg:text-xl leading-relaxed max-w-xl text-center"
+    >
+    </p>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById("exemple-modal");
+  const closeBtn = document.getElementById("exemple-modal-close");
+  let triggerBtn: HTMLElement | null = null;
+
+  function openModal(btn: HTMLElement | null) {
+    if (!btn || !modal) return;
+    const img = document.getElementById(
+      "exemple-modal-image",
+    ) as HTMLImageElement;
+    const desc = document.getElementById("exemple-modal-description");
+
+    if (desc) desc.textContent = btn.dataset.description ?? "";
+
+    if (btn.dataset.image) {
+      img.style.opacity = "0";
+      img.src = btn.dataset.image;
+      img.onload = () => {
+        img.style.opacity = "1";
+      };
+      img.style.display = "";
+    } else {
+      img.style.display = "none";
+    }
+
+    triggerBtn = btn;
+    modal.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+    closeBtn?.focus();
+  }
+
+  function closeModal() {
+    if (!modal) return;
+    modal.classList.add("hidden");
+    document.body.style.overflow = "";
+    triggerBtn?.focus();
+  }
+
+  document.querySelectorAll("[data-exemple-id]").forEach((btn) => {
+    btn.addEventListener("click", () => openModal(btn as HTMLElement));
+  });
+
+  closeBtn?.addEventListener("click", closeModal);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal && !modal.classList.contains("hidden"))
+      closeModal();
+  });
+
+  modal?.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  // Blocage clic droit sur toute la section et la modal
+  document.addEventListener("contextmenu", (e) => {
+    if ((e.target as Element).closest("#exemples, #exemple-modal"))
+      e.preventDefault();
+  });
+</script>
+
+<script>
+  import { gsap, ScrollTrigger } from "../../lib/gsap";
+
+  const tl = gsap.timeline({
+    scrollTrigger: { trigger: "#exemples", start: "top 70%" },
+  });
+
+  tl.from("#exemples h2", {
+    y: 30,
+    autoAlpha: 0,
+    duration: 0.7,
+    ease: "power2.out",
+  }).from(
+    "#exemples-track > div:not([aria-hidden])",
+    {
+      x: 40,
+      autoAlpha: 0,
+      duration: 0.6,
+      ease: "power2.out",
+      stagger: 0.1,
+    },
+    "-=0.3",
+  );
+</script>
+
+<script>
+  const track = document.getElementById("exemples-track");
+  const prev = document.getElementById("exemples-prev");
+  const next = document.getElementById("exemples-next");
+
+  function slideWidth(): number {
+    const slide = track?.querySelector<HTMLElement>(":scope > div:not([aria-hidden])");
+    if (!slide || !track) return 0;
+    const gap = parseFloat(getComputedStyle(track).gap) || 20;
+    return slide.offsetWidth + gap;
+  }
+
+  prev?.addEventListener("click", () => {
+    track?.scrollBy({ left: -slideWidth(), behavior: "smooth" });
+  });
+
+  next?.addEventListener("click", () => {
+    track?.scrollBy({ left: slideWidth(), behavior: "smooth" });
+  });
+</script>
