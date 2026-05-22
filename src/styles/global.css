@@ -15,7 +15,8 @@
 @theme {
   /* Couleurs */
   --color-ink: #0E0E0E;
-  --color-ink-violet: #120D1C;   /* noir teinté violet — sections Œuvres */
+  --color-ink-violet: #120D1C;
+  /* noir teinté violet — sections Œuvres */
   --color-paper: #F5F3EE;
   --color-gold: #C8A646;
   --color-violet: #5B3A6F;
@@ -38,4 +39,12 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
+}
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition:
+    background-color 600000s 0s,
+    color 600000s 0s;
 }

@@ -1,1 +1,28 @@
-<div class="h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent"></div>
+---
+interface Props {
+  variant?: "gold" | "violet";
+  onLight?: boolean;
+}
+const { variant = "gold", onLight = false } = Astro.props;
+---
+
+{
+  onLight && variant === "violet" && (
+    <div class="h-px bg-linear-to-r from-paper via-violet to-paper" />
+  )
+}
+{
+  onLight && variant === "gold" && (
+    <div class="h-px bg-linear-to-r from-paper via-gold to-paper" />
+  )
+}
+{
+  !onLight && variant === "gold" && (
+    <div class="h-px bg-linear-to-r from-transparent via-gold/40 to-transparent" />
+  )
+}
+{
+  !onLight && variant === "violet" && (
+    <div class="h-px bg-linear-to-r from-transparent via-violet/40 to-transparent" />
+  )
+}

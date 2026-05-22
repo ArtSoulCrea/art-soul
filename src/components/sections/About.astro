@@ -1,6 +1,69 @@
 ---
-// Section About — squelette (structure à venir)
+// Section About — grande photo gauche, texte + petite photo droite
 ---
-<section id="about" class="min-h-screen bg-paper flex items-center justify-center px-8">
-  <h2 class="font-display text-5xl text-ink">À propos</h2>
+
+<!-- ============================================================
+     SECTION ABOUT
+     ============================================================ -->
+<section id="about" class="bg-paper py-24 lg:py-0 px-6 lg:px-0 overflow-hidden">
+  <div
+    class="max-w-6xl mx-auto lg:grid lg:grid-cols-[3fr_2fr] lg:min-h-screen lg:items-stretch"
+  >
+    <!-- ── Colonne gauche : grande photo ──────────────────────────────── -->
+    <div class="relative mb-12 lg:mb-0">
+      <div class="lg:sticky lg:top-0 lg:h-screen">
+        <!-- Placeholder grande photo -->
+        <div
+          id="about-photo-main"
+          class="w-full h-80 lg:h-full bg-ink/8 flex items-center justify-center"
+          aria-label="Photo principale — à remplacer"
+        >
+          <span class="font-sans text-xs tracking-[0.2em] uppercase text-ink/20"
+            >Photo 1</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Colonne droite : texte + petite photo ──────────────────────── -->
+    <div class="lg:py-32 lg:px-12 flex flex-col justify-center gap-12">
+      <!-- En-tête -->
+      <div id="about-header">
+        <p class="font-sans text-xs tracking-[0.3em] text-gold uppercase mb-6">
+          À propos
+        </p>
+        <h2
+          class="font-display text-5xl lg:text-6xl text-ink leading-tight mb-8"
+        >
+          Justine
+        </h2>
+        <div class="w-16 h-px bg-gold/50"></div>
+      </div>
+
+      <!-- Texte biographique -->
+      <div id="about-bio" class="space-y-6">
+        <p class="font-serif text-ink/75 text-lg lg:text-xl leading-relaxed">
+          Texte biographique à venir — quelques lignes sur le parcours, la
+          pratique, ce qui anime Justine dans son travail.
+        </p>
+        <p
+          class="font-serif italic text-ink/55 text-base lg:text-lg leading-relaxed"
+        >
+          Citation ou phrase forte, si elle en a une.
+        </p>
+      </div>
+
+      <!-- Petite photo -->
+      <div id="about-photo-secondary">
+        <div
+          class="aspect-[4/3] bg-ink/8 flex items-center justify-center"
+          aria-label="Photo secondaire — à remplacer"
+        >
+          <span class="font-sans text-xs tracking-[0.2em] uppercase text-ink/20"
+            >Photo 2</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
 </section>

@@ -8,13 +8,15 @@ import Intro from "../components/sections/Intro.astro";
 import Contact from "../components/sections/Contact.astro";
 import SectionDivider from "../components/SectionDivider.astro";
 ---
+
 <Layout>
   <Hero />
+  <SectionDivider />
   <Intro />
   <SectionDivider />
   <Oeuvres />
-  <SectionDivider />
   <Commandes />
+  <SectionDivider variant="violet" onLight />
   <About />
   <Contact />
 </Layout>

@@ -1,4 +1,7 @@
 ---
+import Fissure from "../Fissure.astro";
+import fissureSvg from "../../assets/fissure-oeuvre.svg?raw";
+
 const oeuvres = [
   {
     id: "oeuvre-1",
@@ -54,14 +57,36 @@ const oeuvres = [
 <!-- ============================================================
      SECTION ŒUVRES
      ============================================================ -->
-<section id="oeuvres" class="bg-ink py-24 px-6 lg:px-16">
+<section id="oeuvres" class="bg-ink py-24 px-6 lg:px-16 relative">
+  <Fissure
+    rawSvg={fissureSvg}
+    class="opacity-60 absolute top-10 right-10 w-1/2 lg:w-1/3 z-0"
+  />
   <!-- En-tête -->
   <div class="max-w-6xl mx-auto mb-16">
     <p class="font-sans text-xs tracking-[0.3em] text-gold uppercase mb-4">
-      Sélection
+      Œuvres
     </p>
-    <h2 class="font-display text-5xl lg:text-6xl text-paper">Œuvres</h2>
+    <h2 class="font-display text-5xl lg:text-6xl text-paper">Mes créations</h2>
     <div class="w-16 h-px bg-violet mt-6"></div>
+  </div>
+
+  <!-- Texte d'introduction aux œuvres -->
+  <div
+    id="oeuvres-intro"
+    class="max-w-2xl mx-auto mb-20 space-y-6 font-serif italic text-paper/70 text-xl lg:text-2xl leading-relaxed"
+  >
+    <p>
+      J'assimilie mon style au kintsugi, l'art japonais qui répare les objets
+      brisés avec de l'or, pour transformer les fissures en éléments de beauté.
+      C'est ce que je fais avec mes œuvres.
+    </p>
+    <p>
+      Chacune représente une émotion, un combat ou un fragment de vie. Si l'une
+      d'elles résonne en vous, vous pouvez l'adopter. Accueillir une œuvre,
+      c'est se donner les moyens de faire face à ses difficultés, et accepter
+      d'avancer.
+    </p>
   </div>
 
   <!-- Grille des œuvres -->
