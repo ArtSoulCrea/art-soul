@@ -82,63 +82,56 @@ import fissureSvg from "../../assets/fissure.svg?raw";
   </div>
 </section>
 
+<style>
+  /*
+    Seuls les éléments secondaires sont cachés via CSS.
+    #hero-title et #hero-prenom sont laissés visibles pour ne pas pénaliser le LCP Lighthouse.
+    Le micro-flash sur le titre est acceptable ; celui sur les CTAs/tagline ne l'est pas.
+  */
+  #hero-tagline,
+  #hero-ctas,
+  #hero-image-panel {
+    opacity: 0;
+  }
+  #hero-line {
+    transform: scaleX(0);
+    transform-origin: center;
+  }
+</style>
+
 <script>
   import { gsap } from "gsap";
 
-  // ── Pourquoi gsap.from() et pas gsap.to() ────────────────────────────────
-  // gsap.from() part d'un état défini (ex: invisible, décalé) et revient
-  // à l'état naturel de l'élément tel qu'il est dans le CSS.
-  // Résultat : le HTML reste intact (texte visible pour Lighthouse/crawlers),
-  // c'est GSAP qui crée l'état initial au runtime via JavaScript.
-  //
-  // autoAlpha : version GSAP de opacity. La différence : quand autoAlpha
-  // atteint 0, GSAP ajoute aussi visibility:hidden (meilleur pour le GPU).
-  // Quand il remonte à 1, visibility revient à visible automatiquement.
+  /*
+    On passe de gsap.from() à gsap.set() + gsap.to() :
+    - gsap.set() établit l'état de départ (y offset) dès le chargement du script
+    - gsap.to() anime vers l'état final explicite (y:0, autoAlpha:1)
+    Les éléments étant déjà cachés via CSS, il n'y a aucun flash.
+  */
 
-  // ── Timeline universelle (mobile + desktop) ──────────────────────────────
-  // Une timeline enchaîne les animations dans l'ordre.
-  // defaults : les options partagées par tous les tweens de la timeline.
-  // "-=0.3" : commence 0.3s avant la fin du tween précédent → chevauchement fluide.
+  gsap.set("#hero-tagline", { y: 20 });
+
   const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-  // scaleX : fait grandir la ligne de 0 à sa largeur naturelle (transform GPU, pas de reflow).
-  // transformOrigin "center" : grandit depuis le centre → fonctionne que le texte soit
-  // centré (mobile) ou aligné à gauche (desktop).
-  // ease "power3.inOut" : démarre lentement, s'accélère, puis freine — effet "tracé".
-  tl.from("#hero-prenom", { y: 16, autoAlpha: 0, duration: 0.5 })
-    .from("#hero-title", { y: 30, autoAlpha: 0, duration: 0.75 }, "-=0.2")
-    .from(
-      "#hero-line",
-      {
-        scaleX: 0,
-        transformOrigin: "center",
-        duration: 0.6,
-        ease: "power3.inOut",
-      },
-      "-=0.3",
-    )
-    .from("#hero-tagline", { y: 20, autoAlpha: 0, duration: 0.6 }, "-=0.2")
-    .from("#hero-ctas", { autoAlpha: 0, duration: 1 }, "-=0.25");
+  tl.to("#hero-line", { scaleX: 1, duration: 0.6, ease: "power3.inOut" })
+    .to("#hero-tagline", { y: 0, autoAlpha: 1, duration: 0.6 }, "-=0.3")
+    .to("#hero-ctas", { autoAlpha: 1, duration: 1 }, "-=0.25");
 
-  // ── Animations par breakpoint (gsap.matchMedia) ───────────────────────────
-  // Fonctionne comme une media query CSS.
-  // Les animations sont annulées/recréées si la fenêtre change de taille
-  // (ex: rotation écran), ce qui évite les états GSAP bloqués entre layouts.
   const mm = gsap.matchMedia();
 
-  // Desktop : le panneau image glisse depuis la droite en même temps que le titre
+  // Desktop : panneau image — déjà opacity:0 via CSS, on set le x puis on anime
   mm.add("(min-width: 1024px)", () => {
-    gsap.from("#hero-image-panel", {
-      x: 60,
-      autoAlpha: 0,
+    gsap.set("#hero-image-panel", { x: 60 });
+    gsap.to("#hero-image-panel", {
+      x: 0,
+      autoAlpha: 1,
       duration: 1.1,
       ease: "power3.out",
       delay: 0.3,
     });
   });
 
-  // Mobile : léger zoom arrière sur l'image de fond (Ken Burns discret)
-  // Pas de autoAlpha ici : l'image de fond doit rester visible en permanence
+  // Mobile : zoom arrière sur l'image de fond (reste toujours visible, pas de opacity)
   mm.add("(max-width: 1023px)", () => {
     gsap.from("#hero-bg-img", {
       scale: 1.3,
