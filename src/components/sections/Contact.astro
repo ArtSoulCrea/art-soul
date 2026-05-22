@@ -1,12 +1,18 @@
 ---
+import Fissure from "../Fissure.astro";
+import fissureSvg from "../../assets/fissures/fissure-contact.svg?raw";
 // Section Contact — formulaire → /api/contact → Resend
 ---
 
 <!-- ============================================================
      SECTION CONTACT
      ============================================================ -->
-<section id="contact" class="bg-ink py-24 lg:py-32 px-6">
-  <div class="max-w-lg mx-auto">
+<section id="contact" class="bg-ink py-24 lg:py-32 px-6 e">
+  <div class="max-w-lg mx-auto relative z-10">
+    <Fissure
+      rawSvg={fissureSvg}
+      class="w-68 lg:w-80 opacity-60 absolute top-1/2 left-1/2 lg:left-2/3 transform translate-y-1/2"
+    />
     <!-- En-tête -->
     <div class="mb-16">
       <p class="font-sans text-xs tracking-[0.3em] text-gold uppercase mb-4">
