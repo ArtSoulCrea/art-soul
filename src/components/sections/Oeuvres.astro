@@ -1,6 +1,17 @@
 ---
+import { Image } from "astro:assets";
 import Fissure from "../Fissure.astro";
-import fissureSvg from "../../assets/fissure-oeuvre.svg?raw";
+import fissureSvg from "../../assets/fissures/fissure-oeuvre.svg?raw";
+
+// Images dans src/assets/oeuvres/ — Astro génère des URLs hashées (/_astro/oeuvre-1.Xk3aB.webp)
+// non devinables, contrairement à public/ où l'URL est prévisible.
+// image.src (string) est passé dans data-image pour le JS du modal.
+import img1 from "../../assets/oeuvres/image1.webp";
+import img2 from "../../assets/oeuvres/image2.webp";
+import img3 from "../../assets/oeuvres/image3.webp";
+import img4 from "../../assets/oeuvres/image4.webp";
+import img5 from "../../assets/oeuvres/image5.webp";
+import img6 from "../../assets/oeuvres/image6.webp";
 
 const oeuvres = [
   {
@@ -8,6 +19,7 @@ const oeuvres = [
     title: "Sans titre I",
     medium: "Huile sur toile",
     year: "2024",
+    image: img1,
     story:
       "Placeholder — le récit de cette œuvre viendra ici. Les émotions traversées, le déclencheur de la création, ce que l'artiste a voulu capturer ou libérer à travers ce tableau.",
   },
@@ -16,6 +28,7 @@ const oeuvres = [
     title: "Sans titre II",
     medium: "Encre sur papier",
     year: "2023",
+    image: img2,
     story:
       "Placeholder — l'histoire derrière cette œuvre à la plume. Le temps suspendu d'un geste, la façon dont le trait révèle ce que les mots ne peuvent pas dire.",
   },
@@ -24,6 +37,7 @@ const oeuvres = [
     title: "Sans titre III",
     medium: "Aquarelle",
     year: "2024",
+    image: img3,
     story:
       "Placeholder — l'eau et le pigment qui se rencontrent, se fuient, se cherchent. Une œuvre née de l'imprévu autant que de l'intention.",
   },
@@ -32,6 +46,7 @@ const oeuvres = [
     title: "Sans titre IV",
     medium: "Pastel sec",
     year: "2022",
+    image: img4,
     story:
       "Placeholder — la matière granuleuse du pastel, ses strates de couleur, la trace du doigt sur la surface. Une œuvre qui se touche du regard.",
   },
@@ -40,6 +55,7 @@ const oeuvres = [
     title: "Sans titre V",
     medium: "Huile sur toile",
     year: "2023",
+    image: img5,
     story:
       "Placeholder — plusieurs semaines de travail en couches successives. Chaque glacis révèle quelque chose que le précédent dissimulait.",
   },
@@ -48,6 +64,7 @@ const oeuvres = [
     title: "Sans titre VI",
     medium: "Encre et aquarelle",
     year: "2024",
+    image: img6,
     story:
       "Placeholder — deux techniques qui s'opposent et se complètent. La rigueur du trait contre la liberté du lavis.",
   },
@@ -100,14 +117,16 @@ const oeuvres = [
           data-medium={oeuvre.medium}
           data-year={oeuvre.year}
           data-story={oeuvre.story}
+          data-image={oeuvre.image.src}
           aria-label={`Voir ${oeuvre.title}`}
-          class="group relative aspect-3/4 overflow-hidden cursor-pointer focus-visible:ring-2 focus-visible:ring-violet  focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+          class="group relative aspect-3/4 overflow-hidden cursor-pointer focus-visible:ring-2 focus-visible:ring-violet focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
         >
-          <div class="absolute inset-0 bg-paper/10 flex items-center justify-center">
-            <span class="font-sans text-paper/20 text-xs tracking-widest uppercase">
-              Image
-            </span>
-          </div>
+          <Image
+            src={oeuvre.image}
+            alt={oeuvre.title}
+            class="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+            draggable="false"
+          />
 
           <div class="absolute inset-0 bg-linear-to-t from-ink via-ink/40 to-transparent opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 flex flex-col justify-end p-4 lg:p-6">
             <p class="font-sans text-gold text-xs tracking-widest uppercase mb-1">
@@ -137,7 +156,7 @@ const oeuvres = [
     id="modal-close"
     type="button"
     aria-label="Fermer"
-    class="fixed top-6 right-6 z-10 w-10 h-10 flex items-center justify-center text-paper/50 hover:text-paper transition-colors"
+    class="fixed top-6 right-6 z-10 w-10 h-10 flex items-center justify-center text-paper/50 hover:text-paper transition-colors cursor-pointer"
   >
     <svg
       width="20"
@@ -156,14 +175,13 @@ const oeuvres = [
     <div
       class="lg:w-[58%] flex items-center justify-center p-8 lg:p-16 pt-16 lg:pt-8"
     >
-      <div
-        id="modal-image-placeholder"
-        class="w-full h-[45vh] lg:h-[80vh] bg-paper/10 flex items-center justify-center"
-      >
-        <span class="font-sans text-paper/20 text-xs tracking-widest uppercase"
-          >Image</span
-        >
-      </div>
+      <img
+        id="modal-image"
+        src=""
+        alt=""
+        draggable="false"
+        class="w-full h-[45vh] lg:h-[80vh] object-contain pointer-events-none select-none"
+      />
     </div>
 
     <!-- Récit de l'œuvre -->
@@ -204,6 +222,9 @@ const oeuvres = [
       btn.dataset.title!;
     document.getElementById("modal-story")!.textContent = btn.dataset.story!;
     document.getElementById("modal-year")!.textContent = btn.dataset.year!;
+    const img = document.getElementById("modal-image") as HTMLImageElement;
+    img.src = btn.dataset.image!;
+    img.alt = btn.dataset.title!;
     triggerBtn = btn;
     if (!modal) return;
     modal.classList.remove("hidden");
@@ -239,6 +260,12 @@ const oeuvres = [
     modal.addEventListener("click", (e) => {
       if (e.target === modal) closeModal();
     });
+
+  // Blocage du clic droit sur toutes les images des œuvres
+  document.addEventListener("contextmenu", (e) => {
+    if ((e.target as Element).closest("#oeuvres, #oeuvre-modal"))
+      e.preventDefault();
+  });
 </script>
 
 <!-- Script : animation d'apparition des cards au scroll (GSAP) -->

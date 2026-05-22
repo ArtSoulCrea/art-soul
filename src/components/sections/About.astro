@@ -1,11 +1,13 @@
 ---
 // Section About — grande photo gauche, texte + petite photo droite
+import { Image } from "astro:assets";
+import justineImg from "../../assets/justine.webp";
 ---
 
 <!-- ============================================================
      SECTION ABOUT
      ============================================================ -->
-<section id="about" class="bg-paper py-24 lg:py-0 px-6 lg:px-0 overflow-hidden">
+<section id="about" class="bg-paper py-24 px-6 lg:px-0 overflow-hidden">
   <div
     class="max-w-6xl mx-auto lg:grid lg:grid-cols-[3fr_2fr] lg:min-h-screen lg:items-stretch"
   >
@@ -18,9 +20,11 @@
           class="w-full h-80 lg:h-full bg-ink/8 flex items-center justify-center"
           aria-label="Photo principale — à remplacer"
         >
-          <span class="font-sans text-xs tracking-[0.2em] uppercase text-ink/20"
-            >Photo 1</span
-          >
+          <Image
+            src={justineImg}
+            alt="Photo principale"
+            class="w-full h-full object-cover"
+          />
         </div>
       </div>
     </div>
@@ -51,18 +55,6 @@
         >
           Citation ou phrase forte, si elle en a une.
         </p>
-      </div>
-
-      <!-- Petite photo -->
-      <div id="about-photo-secondary">
-        <div
-          class="aspect-[4/3] bg-ink/8 flex items-center justify-center"
-          aria-label="Photo secondaire — à remplacer"
-        >
-          <span class="font-sans text-xs tracking-[0.2em] uppercase text-ink/20"
-            >Photo 2</span
-          >
-        </div>
       </div>
     </div>
   </div>
