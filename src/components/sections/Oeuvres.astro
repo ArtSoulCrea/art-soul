@@ -16,57 +16,93 @@ import img6 from "../../assets/oeuvres/image6.webp";
 const oeuvres = [
   {
     id: "oeuvre-1",
-    title: "Sans titre I",
-    medium: "Huile sur toile",
+    title: "LA FAILLE LUMINEUSE",
+    medium: "Illustration numérique",
     year: "2024",
     image: img1,
     story:
-      "Placeholder — le récit de cette œuvre viendra ici. Les émotions traversées, le déclencheur de la création, ce que l'artiste a voulu capturer ou libérer à travers ce tableau.",
+      "Nous portons tous des fissures.\n" +
+      "Des blessures.\n" +
+      "Des morceaux d’histoire.\n" +
+      "Cette œuvre raconte qu’elles ne nous détruisent pas forcément.\n" +
+      "Parfois elles deviennent lumière.\n" +
+      "L’or traverse le corps comme un chemin.\n" +
+      "Celui qui transforme les cassures en force.",
   },
   {
     id: "oeuvre-2",
-    title: "Sans titre II",
-    medium: "Encre sur papier",
-    year: "2023",
+    title: " TRIPTYQUE — LES GARDIENNES DU SILENCE",
+    medium: "Triptyque illustré",
+    year: "2026",
     image: img2,
     story:
-      "Placeholder — l'histoire derrière cette œuvre à la plume. Le temps suspendu d'un geste, la façon dont le trait révèle ce que les mots ne peuvent pas dire.",
+      "Cette série explore trois états émotionnels.\n" +
+      "Trois fragments.\n" +
+      "Trois versions de soi.\n" +
+      "Le silence.\n" +
+      "L’introspection.\n" +
+      "La reconstruction.\n" +
+      "Reliées par l’or, elles racontent un même chemin : celui qui transforme les blessures en identité.",
   },
   {
     id: "oeuvre-3",
-    title: "Sans titre III",
-    medium: "Aquarelle",
+    title: "L'ÉCHO SILENCIEUX",
+    medium: "Illustration numérique",
     year: "2024",
     image: img3,
     story:
-      "Placeholder — l'eau et le pigment qui se rencontrent, se fuient, se cherchent. Une œuvre née de l'imprévu autant que de l'intention.",
+      "Cette œuvre parle des émotions que l’on garde en silence.\n" +
+      " Celles que l’on étouffe derrière la musique, les écouteurs ou le bruit du quotidien. \n" +
+      " La larme dorée n’est pas seulement une douleur. \n" +
+      " Elle représente ce qui a traversé la faille et qui continue pourtant à exister. \n" +
+      " Une œuvre sur le silence, l’introspection et ce que l’on n’ose pas toujours dire.\n" +
+      "La larme dorée n’est pas seulement une douleur. Elle représente ce qui a traversé la faille et qui continue pourtant à exister. Une œuvre sur le silence, l’introspection et ce que l’on n’ose pas toujours dire.",
   },
   {
     id: "oeuvre-4",
-    title: "Sans titre IV",
-    medium: "Pastel sec",
-    year: "2022",
+    title: " L’INSTINCT",
+    medium: "Illustration numérique",
+    year: "2025",
     image: img4,
     story:
-      "Placeholder — la matière granuleuse du pastel, ses strates de couleur, la trace du doigt sur la surface. Une œuvre qui se touche du regard.",
+      "Cette œuvre parle de cette force que l’on oublie parfois porter en soi.\n" +
+      "La panthère représente l’instinct.\n" +
+      "Le silence.\n" +
+      "La puissance maîtrisée.\n" +
+      "La femme et l’animal ne s’opposent pas.\n" +
+      "Ils avancent ensemble.\n" +
+      "L’une incarne la sensibilité.\n" +
+      "L’autre la force.\n" +
+      "Une œuvre sur l’équilibre entre vulnérabilité et puissance intérieure.",
   },
   {
     id: "oeuvre-5",
-    title: "Sans titre V",
-    medium: "Huile sur toile",
-    year: "2023",
+    title: "RENAISSANCE",
+    medium: "Illustration numérique",
+    year: "2025",
     image: img5,
     story:
-      "Placeholder — plusieurs semaines de travail en couches successives. Chaque glacis révèle quelque chose que le précédent dissimulait.",
+      "Cette œuvre est née de l’idée que même après les tempêtes…\n" +
+      "quelque chose reste vivant.\n" +
+      "La lumière au cœur symbolise ce qui refuse de disparaître.\n" +
+      "Les papillons représentent la transformation.\n" +
+      "Le passage d’une version de soi à une autre.\n" +
+      "Une œuvre sur la reconstruction et le renouveau.",
   },
   {
     id: "oeuvre-6",
-    title: "Sans titre VI",
-    medium: "Encre et aquarelle",
-    year: "2024",
+    title: " L’EFFONDREMENT SILENCIEUX",
+    medium: "Illustration numérique",
+    year: "2025",
     image: img6,
     story:
-      "Placeholder — deux techniques qui s'opposent et se complètent. La rigueur du trait contre la liberté du lavis.",
+      "Parfois on ne s’effondre pas d’un coup.\n" +
+      "On se fissure.\n" +
+      "Petit bout par petit bout.\n" +
+      "Cette œuvre représente cet instant suspendu entre chute et renaissance.\n" +
+      "L’or traverse encore les pierres.\n" +
+      "Parce qu’au milieu des ruines…\n" +
+      "il reste toujours une lumière.",
   },
 ];
 ---
@@ -158,7 +194,9 @@ const oeuvres = [
   </div>
 
   <!-- Indice tactile — mobile uniquement -->
-  <p class="lg:hidden font-sans text-xs text-paper/30 text-center mb-8 tracking-wide max-w-6xl mx-auto">
+  <p
+    class="lg:hidden font-sans text-xs text-paper/30 text-center mb-8 tracking-wide max-w-6xl mx-auto"
+  >
     Cliquez sur une réalisation pour la révéler
   </p>
 
@@ -260,7 +298,7 @@ const oeuvres = [
       </h2>
       <p
         id="modal-story"
-        class="font-serif text-xl lg:text-2xl text-paper/75 leading-relaxed"
+        class="font-serif text-xl text-paper/75 leading-relaxed whitespace-pre-line"
       >
       </p>
       <p id="modal-year" class="font-sans text-sm text-paper/30 mt-10"></p>
