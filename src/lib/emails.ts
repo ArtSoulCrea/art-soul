@@ -15,7 +15,7 @@ function sceauHtml(): string {
   const siteUrl = process.env.SITE_URL ?? "";
   if (siteUrl) {
     return `<img src="${siteUrl}/sceau.png" alt="ArtSoul" width="80" height="80"
-      style="display:block;border:0;outline:none;text-decoration:none;" />`;
+      style="display:block;margin:0 auto;border:0;outline:none;text-decoration:none;" />`;
   }
   return `<p style="margin:0;font-family:Georgia,serif;font-size:24px;color:${PAPER};letter-spacing:0.08em;">ArtSoul</p>`;
 }
@@ -35,9 +35,9 @@ function base(content: string): string {
 
           <!-- En-tête -->
           <tr>
-            <td style="padding:36px 40px 28px;border-bottom:1px solid ${GOLD};background:${INK};">
+            <td style="padding:36px 40px 28px;border-bottom:1px solid ${GOLD};background:${INK};text-align:center;">
               ${sceauHtml()}
-              <p style="margin:6px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;color:${GOLD};letter-spacing:0.35em;text-transform:uppercase;">Justine — Artiste émotionnelle</p>
+              <p style="margin:10px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;color:${GOLD};letter-spacing:0.35em;text-transform:uppercase;">Justine — Artiste émotionnelle</p>
             </td>
           </tr>
 
@@ -72,16 +72,6 @@ export function notificationEmail(params: {
   const { name, prenom, email, message } = params;
 
   const content = `
-          <!-- Intro -->
-          <tr>
-            <td style="padding:36px 40px 0;">
-              <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:11px;color:${GOLD};letter-spacing:0.3em;text-transform:uppercase;">Nouveau message</p>
-              <p style="margin:12px 0 0;font-family:Georgia,serif;font-size:22px;color:${PAPER};line-height:1.3;">
-                ${escHtml(prenom)} ${escHtml(name)} vous a écrit
-              </p>
-            </td>
-          </tr>
-
           <!-- Bloc expéditeur -->
           <tr>
             <td style="padding:28px 40px 0;">
@@ -108,8 +98,8 @@ export function notificationEmail(params: {
 
           <!-- Bouton répondre -->
           <tr>
-            <td style="padding:40px 40px 36px;">
-              <table cellpadding="0" cellspacing="0" border="0">
+            <td style="padding:40px 40px 36px;text-align:center;">
+              <table cellpadding="0" cellspacing="0" border="0" align="center">
                 <tr>
                   <td style="background:${GOLD};border-radius:3px;">
                     <a href="mailto:${escHtml(email)}?subject=Re%3A%20votre%20message%20%C3%A0%20ArtSoul"
