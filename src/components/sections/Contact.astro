@@ -42,9 +42,28 @@ import fissureSvg from "../../assets/fissures/fissure-contact.svg?raw";
           id="contact-name"
           name="name"
           required
-          autocomplete="name"
+          autocomplete="family-name"
           class="contact-field bg-transparent border-b border-paper/20 focus:border-gold/50 outline-none w-full py-3 text-paper font-sans text-base placeholder:text-paper/20 transition-colors duration-300"
           placeholder="Votre nom"
+        />
+        <p class="field-error font-sans text-xs text-red-400 mt-2 hidden"></p>
+      </div>
+
+      <div class="mb-10">
+        <label
+          for="contact-prenom"
+          class="font-sans text-xs tracking-[0.2em] uppercase text-paper/40 mb-3 block"
+        >
+          Prénom
+        </label>
+        <input
+          type="text"
+          id="contact-prenom"
+          name="prenom"
+          required
+          autocomplete="given-name"
+          class="contact-field bg-transparent border-b border-paper/20 focus:border-gold/50 outline-none w-full py-3 text-paper font-sans text-base placeholder:text-paper/20 transition-colors duration-300"
+          placeholder="Votre prénom"
         />
         <p class="field-error font-sans text-xs text-red-400 mt-2 hidden"></p>
       </div>
@@ -193,6 +212,7 @@ import fissureSvg from "../../assets/fissures/fissure-contact.svg?raw";
 
   function validateForm(): boolean {
     const name = document.getElementById("contact-name") as HTMLInputElement;
+    const prenom = document.getElementById("contact-prenom") as HTMLInputElement;
     const email = document.getElementById("contact-email") as HTMLInputElement;
     const message = document.getElementById(
       "contact-message",
@@ -201,6 +221,11 @@ import fissureSvg from "../../assets/fissures/fissure-contact.svg?raw";
 
     if (!name.value.trim()) {
       showFieldError(name, "Votre nom est requis.");
+      valid = false;
+    }
+
+    if (!prenom.value.trim()) {
+      showFieldError(prenom, "Votre prénom est requis.");
       valid = false;
     }
 

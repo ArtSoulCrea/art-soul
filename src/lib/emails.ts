@@ -65,10 +65,11 @@ function base(content: string): string {
 // Reçu à chaque soumission du formulaire de contact.
 export function notificationEmail(params: {
   name: string;
+  prenom: string;
   email: string;
   message: string;
 }): string {
-  const { name, email, message } = params;
+  const { name, prenom, email, message } = params;
 
   const content = `
           <!-- Intro -->
@@ -76,7 +77,7 @@ export function notificationEmail(params: {
             <td style="padding:36px 40px 0;">
               <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:11px;color:${GOLD};letter-spacing:0.3em;text-transform:uppercase;">Nouveau message</p>
               <p style="margin:12px 0 0;font-family:Georgia,serif;font-size:22px;color:${PAPER};line-height:1.3;">
-                ${escHtml(name)} vous a écrit
+                ${escHtml(prenom)} ${escHtml(name)} vous a écrit
               </p>
             </td>
           </tr>
@@ -89,7 +90,7 @@ export function notificationEmail(params: {
                 <tr>
                   <td style="padding:20px 24px;">
                     <p style="margin:0 0 6px;font-family:Arial,Helvetica,sans-serif;font-size:10px;color:${GOLD};letter-spacing:0.25em;text-transform:uppercase;">De</p>
-                    <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:18px;color:${PAPER};">${escHtml(name)}</p>
+                    <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:18px;color:${PAPER};">${escHtml(prenom)} ${escHtml(name)}</p>
                     <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:${PAPER};opacity:0.55;">${escHtml(email)}</p>
                   </td>
                 </tr>
@@ -113,7 +114,7 @@ export function notificationEmail(params: {
                   <td style="background:${GOLD};border-radius:3px;">
                     <a href="mailto:${escHtml(email)}?subject=Re%3A%20votre%20message%20%C3%A0%20ArtSoul"
                       style="display:inline-block;padding:14px 32px;font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:bold;color:${INK};text-decoration:none;letter-spacing:0.2em;text-transform:uppercase;">
-                      Répondre à ${escHtml(name)}
+                      Répondre à ${escHtml(prenom)}
                     </a>
                   </td>
                 </tr>

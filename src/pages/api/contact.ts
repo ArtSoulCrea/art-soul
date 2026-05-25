@@ -5,10 +5,11 @@ import { notificationEmail } from "../../lib/emails";
 export const POST: APIRoute = async ({ request }) => {
   const data = await request.formData();
   const name = data.get("name")?.toString().trim();
+  const prenom = data.get("prenom")?.toString().trim();
   const email = data.get("email")?.toString().trim();
   const message = data.get("message")?.toString().trim();
 
-  if (!name || !email || !message) {
+  if (!name || !prenom || !email || !message) {
     return new Response(JSON.stringify({ error: "Tous les champs sont requis." }), {
       status: 400,
       headers: { "Content-Type": "application/json" },
@@ -22,23 +23,29 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  // En développement sans clé Resend : log console uniquement
-  if (!import.meta.env.RESEND_API_KEY) {
-    console.log("[contact] Mode dev — email non envoyé :", { name, email, message });
-    return new Response(JSON.stringify({ success: true }), {
-      status: 200,
+  const apiKey = import.meta.env.RESEND_API_KEY;
+  const fromEmail = import.meta.env.CONTACT_FROM_EMAIL;
+  const toEmail = import.meta.env.CONTACT_TO_EMAIL;
+
+  if (!apiKey || !fromEmail || !toEmail) {
+    const missing = ["RESEND_API_KEY", "CONTACT_FROM_EMAIL", "CONTACT_TO_EMAIL"]
+      .filter((k) => !import.meta.env[k])
+      .join(", ");
+    console.error(`[contact] Variables d'environnement manquantes : ${missing}`);
+    return new Response(JSON.stringify({ error: "Le service d'envoi n'est pas configuré." }), {
+      status: 500,
       headers: { "Content-Type": "application/json" },
     });
   }
 
-  const resend = new Resend(import.meta.env.RESEND_API_KEY);
+  const resend = new Resend(apiKey);
 
   const { error } = await resend.emails.send({
-    from: import.meta.env.CONTACT_FROM_EMAIL,
-    to: import.meta.env.CONTACT_TO_EMAIL,
+    from: fromEmail,
+    to: toEmail,
     replyTo: email,
-    subject: `ArtSoul — Message de ${name}`,
-    html: notificationEmail({ name, email, message }),
+    subject: `ArtSoul — Message de ${prenom} ${name}`,
+    html: notificationEmail({ name, prenom, email, message }),
   });
 
   if (error) {
