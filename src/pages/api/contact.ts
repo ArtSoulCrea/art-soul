@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 import { Resend } from "resend";
-import { notificationEmail } from "../../lib/emails";
+import { notificationEmail, autoReplyEmail } from "../../lib/emails";
 
 export const POST: APIRoute = async ({ request }) => {
   const data = await request.formData();
@@ -55,6 +55,16 @@ export const POST: APIRoute = async ({ request }) => {
       headers: { "Content-Type": "application/json" },
     });
   }
+
+  // Réponse automatique à l'expéditeur — erreur non bloquante
+  const { error: replyError } = await resend.emails.send({
+    from: fromEmail,
+    to: email,
+    replyTo: toEmail,
+    subject: `ArtSoul — Merci pour votre message, ${prenom}`,
+    html: autoReplyEmail({ prenom }),
+  });
+  if (replyError) console.error("[contact] Auto-reply error:", replyError);
 
   return new Response(JSON.stringify({ success: true }), {
     status: 200,

@@ -115,6 +115,48 @@ export function notificationEmail(params: {
   return base(content);
 }
 
+// ── Email de réponse automatique envoyé à l'expéditeur ───────────────────────
+// Envoyé immédiatement après réception du formulaire.
+// Le contenu (texte, ton) est à affiner avec Justine — c'est un placeholder.
+export function autoReplyEmail(params: {
+  prenom: string;
+}): string {
+  const { prenom } = params;
+
+  const content = `
+          <!-- Message principal -->
+          <tr>
+            <td style="padding:40px 40px 0;text-align:center;">
+              <p style="margin:0 0 8px;font-family:Arial,Helvetica,sans-serif;font-size:11px;color:${GOLD};letter-spacing:0.3em;text-transform:uppercase;">Merci</p>
+              <h1 style="margin:0 0 28px;font-family:Georgia,'Times New Roman',serif;font-size:28px;color:${PAPER};font-weight:normal;line-height:1.3;">
+                ${escHtml(prenom)},
+              </h1>
+              <p style="margin:0 0 20px;font-family:Georgia,'Times New Roman',serif;font-size:17px;color:${PAPER};line-height:1.8;opacity:0.85;">
+                Votre message m'a bien été transmis.<br />
+                Je vous répondrai dans les meilleurs délais.
+              </p>
+              <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:15px;color:${PAPER};line-height:1.8;opacity:0.55;font-style:italic;">
+                — Justine
+              </p>
+            </td>
+          </tr>
+
+          <!-- Séparateur -->
+          <tr>
+            <td style="padding:36px 40px 0;">
+              <div style="width:40px;height:1px;background:${GOLD};margin:0 auto;opacity:0.5;"></div>
+            </td>
+          </tr>
+
+          <!-- Espaceur bas -->
+          <tr>
+            <td style="padding:0 40px 36px;">
+            </td>
+          </tr>`;
+
+  return base(content);
+}
+
 // ── Échappe les caractères HTML ───────────────────────────────────────────────
 export function escHtml(str: string): string {
   return str.replace(
