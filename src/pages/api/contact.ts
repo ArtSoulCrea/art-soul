@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { Resend } from "resend";
+import { notificationEmail } from "../../lib/emails";
 
 export const POST: APIRoute = async ({ request }) => {
   const data = await request.formData();
@@ -7,7 +8,6 @@ export const POST: APIRoute = async ({ request }) => {
   const email = data.get("email")?.toString().trim();
   const message = data.get("message")?.toString().trim();
 
-  // Validation basique
   if (!name || !email || !message) {
     return new Response(JSON.stringify({ error: "Tous les champs sont requis." }), {
       status: 400,
@@ -37,13 +37,8 @@ export const POST: APIRoute = async ({ request }) => {
     from: import.meta.env.CONTACT_FROM_EMAIL,
     to: import.meta.env.CONTACT_TO_EMAIL,
     replyTo: email,
-    subject: `Art Soul — Message de ${name}`,
-    html: `
-      <p><strong>Nom :</strong> ${escHtml(name)}</p>
-      <p><strong>Email :</strong> ${escHtml(email)}</p>
-      <p><strong>Message :</strong></p>
-      <p style="white-space: pre-wrap">${escHtml(message)}</p>
-    `,
+    subject: `ArtSoul — Message de ${name}`,
+    html: notificationEmail({ name, email, message }),
   });
 
   if (error) {
@@ -59,8 +54,3 @@ export const POST: APIRoute = async ({ request }) => {
     headers: { "Content-Type": "application/json" },
   });
 };
-
-// Échappe les caractères HTML pour éviter l'injection dans le corps de l'email
-function escHtml(str: string): string {
-  return str.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[c] ?? c));
-}
