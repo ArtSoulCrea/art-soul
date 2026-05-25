@@ -1,0 +1,217 @@
+---
+// Section Avis — carousel auto-scroll, pause au survol, zoom au clic
+import { Image } from "astro:assets";
+import img1 from "../../assets/avis/image1.webp";
+import img2 from "../../assets/avis/image2.webp";
+import img3 from "../../assets/avis/image3.webp";
+import img4 from "../../assets/avis/image4.webp";
+import img5 from "../../assets/avis/image5.webp";
+
+const avis = [
+  { id: "avis-1", image: img1 },
+  { id: "avis-2", image: img2 },
+  { id: "avis-3", image: img3 },
+  { id: "avis-4", image: img4 },
+  { id: "avis-5", image: img5 },
+];
+---
+
+<!-- ============================================================
+     SECTION AVIS CLIENTS
+     ============================================================ -->
+<section id="avis" class="bg-paper py-24 overflow-hidden">
+  <!-- En-tête -->
+  <div class="px-6 lg:px-16 max-w-6xl mx-auto mb-16">
+    <p class="font-sans text-xs tracking-[0.3em] text-gold uppercase mb-4">
+      Ils l'ont vécu
+    </p>
+    <h2 class="font-display text-5xl lg:text-6xl text-ink">
+      Ce qu'ils en disent
+    </h2>
+    <div class="w-16 h-px bg-gold mt-6"></div>
+  </div>
+
+  <!-- Carousel auto-scroll -->
+  <div id="avis-carousel" class="cursor-grab active:cursor-grabbing">
+    <div id="avis-track" class="flex gap-8 w-max">
+      {
+        avis.map((a) => (
+          <button
+            type="button"
+            data-avis-id={a.id}
+            data-src={a.image.src}
+            aria-label="Agrandir cet avis"
+            class="shrink-0 w-[72vw] sm:w-[45vw] lg:w-[20vw] aspect-3/4 lg:aspect-2/3 overflow-hidden focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-paper cursor-pointer"
+          >
+            <Image
+              src={a.image}
+              alt=""
+              loading="lazy"
+              class="w-full h-full object-cover pointer-events-none select-none"
+              draggable="false"
+            />
+          </button>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MODAL AVIS — zoom simple sur le screenshot
+     ============================================================ -->
+<div
+  id="avis-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Agrandissement de l'avis"
+  class="fixed inset-0 z-50 bg-ink/95 hidden items-center justify-center p-6 lg:p-16"
+>
+  <button
+    id="avis-modal-close"
+    type="button"
+    aria-label="Fermer"
+    class="fixed top-6 right-6 z-10 w-10 h-10 flex items-center justify-center text-paper/50 hover:text-paper transition-colors cursor-pointer"
+  >
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+    >
+      <path d="M4 4L16 16M16 4L4 16"></path>
+    </svg>
+  </button>
+
+  <img
+    id="avis-modal-image"
+    src=""
+    alt=""
+    draggable="false"
+    class="max-w-full max-h-[85vh] object-contain pointer-events-none select-none transition-opacity duration-300"
+  />
+</div>
+
+<script>
+  import { gsap } from "../../lib/gsap";
+
+  // ── Duplication pour boucle sans couture ──────────────────────────────────
+  // Problème avec peu d'items : après 1 seul clone, le rail peut être plus court
+  // que le viewport → on verrait le même avis deux fois à l'écran simultanément.
+  //
+  // Solution : mesurer la largeur d'un set original, puis cloner autant de fois
+  // que nécessaire pour que le rail dépasse 2× la largeur du viewport.
+  // On anime ensuite de -setWidth px (une fois la largeur du set) : quand GSAP
+  // repart de 0, la copie suivante est pile là → boucle invisible, peu importe
+  // le nombre d'items.
+  const track = document.getElementById("avis-track")!;
+  const carousel = document.getElementById("avis-carousel")!;
+  const originals = Array.from(track.children) as HTMLElement[];
+
+  // Clonage initial (avant mesure) pour remplir le DOM
+  // On clonera autant que nécessaire après mesure
+  let tween: ReturnType<typeof gsap.to>;
+
+  // Déférer la mesure à après le premier paint pour que le CSS vw soit résolu
+  requestAnimationFrame(() => {
+    // getBoundingClientRect() force un layout et retourne des dimensions exactes,
+    // contrairement à offsetWidth qui peut lire des valeurs pré-CSS
+    const gap = parseFloat(getComputedStyle(track).columnGap) || 20;
+    const setWidth = originals.reduce(
+      (total, el) => total + el.getBoundingClientRect().width + gap,
+      0,
+    );
+
+    // Nombre de copies pour couvrir 2× l'écran
+    const setsNeeded = Math.ceil((window.innerWidth * 2) / setWidth) + 1;
+    for (let i = 0; i < setsNeeded; i++) {
+      originals.forEach((el) => {
+        const clone = el.cloneNode(true) as HTMLElement;
+        clone.setAttribute("aria-hidden", "true");
+        clone.setAttribute("tabindex", "-1");
+        track.appendChild(clone);
+      });
+    }
+
+    // ── Animation auto-scroll ───────────────────────────────────────────────
+    tween = gsap.to(track, {
+      x: -setWidth,
+      ease: "none",
+      repeat: -1,
+      duration: 25,
+    });
+
+    // ── Pause au survol ─────────────────────────────────────────────────────
+    carousel.addEventListener("mouseenter", () => tween.pause());
+    carousel.addEventListener("mouseleave", () => tween.resume());
+  });
+
+  // ── Modal zoom ────────────────────────────────────────────────────────────
+  const modal = document.getElementById("avis-modal")!;
+  const closeBtn = document.getElementById("avis-modal-close")!;
+  const modalImg = document.getElementById(
+    "avis-modal-image",
+  ) as HTMLImageElement;
+  let triggerBtn: HTMLElement | null = null;
+
+  function openModal(btn: HTMLElement) {
+    const src = btn.dataset.src ?? "";
+    if (!src) return; // pas d'image encore, on n'ouvre pas
+
+    modalImg.style.opacity = "0";
+    modalImg.src = src;
+    modalImg.onload = () => {
+      modalImg.style.opacity = "1";
+    };
+
+    triggerBtn = btn;
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+    document.body.style.overflow = "hidden";
+    closeBtn.focus();
+  }
+
+  function closeModal() {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+    document.body.style.overflow = "";
+    triggerBtn?.focus();
+  }
+
+  // Délègue les clics sur le track entier — fonctionne sur les clones aussi.
+  // On ne filtre PAS sur aria-hidden : c'est un attribut pour les lecteurs d'écran,
+  // il ne doit pas bloquer les clics visuels. tabindex="-1" gère le clavier.
+  track.addEventListener("click", (e) => {
+    const btn = (e.target as Element).closest<HTMLElement>("[data-avis-id]");
+    if (btn) openModal(btn);
+  });
+
+  closeBtn.addEventListener("click", closeModal);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
+  });
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  // ── Protection clic droit ─────────────────────────────────────────────────
+  document.addEventListener("contextmenu", (e) => {
+    if ((e.target as Element).closest("#avis, #avis-modal")) e.preventDefault();
+  });
+</script>
+
+<script>
+  import { gsap, ScrollTrigger } from "../../lib/gsap";
+
+  gsap.from("#avis h2", {
+    y: 30,
+    autoAlpha: 0,
+    duration: 0.7,
+    ease: "power2.out",
+    scrollTrigger: { trigger: "#avis", start: "top 75%" },
+  });
+</script>

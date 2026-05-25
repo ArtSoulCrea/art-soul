@@ -357,6 +357,7 @@ const exemples = [
     if (btn.dataset.image) {
       img.style.opacity = "0";
       img.src = btn.dataset.image;
+      img.alt = btn.dataset.titre || btn.dataset.exempleId?.replace("ex-", "exemple-") || "";
       img.onload = () => {
         img.style.opacity = "1";
       };
