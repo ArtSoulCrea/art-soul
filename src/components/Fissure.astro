@@ -18,7 +18,7 @@ const { rawSvg, class: className = "" } = Astro.props;
 const svg = rawSvg
   .replace(/\s+width="[^"]*"/, "")
   .replace(/\s+height="[^"]*"/, "")
-  .replace("<svg", '<svg width="100%" height="auto"');
+  .replace("<svg", '<svg width="100%"');
 ---
 
 <div data-fissure class={className} aria-hidden="true" set:html={svg} />

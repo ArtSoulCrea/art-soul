@@ -14,7 +14,7 @@ const SURFACE = "#1A1A1A";
 function sceauHtml(): string {
   const siteUrl = process.env.SITE_URL ?? "";
   if (siteUrl) {
-    return `<img src="${siteUrl}/sceau.webp" alt="ArtSoul" width="80" height="auto"
+    return `<img src="${siteUrl}/sceau.png" alt="ArtSoul" width="80" height="80"
       style="display:block;border:0;outline:none;text-decoration:none;" />`;
   }
   return `<p style="margin:0;font-family:Georgia,serif;font-size:24px;color:${PAPER};letter-spacing:0.08em;">ArtSoul</p>`;
@@ -31,11 +31,11 @@ function base(content: string): string {
   <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${INK};padding:40px 16px;">
     <tr>
       <td align="center">
-        <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;">
+        <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;background:${INK};">
 
           <!-- En-tête -->
           <tr>
-            <td style="padding:36px 40px 28px;border-bottom:1px solid ${GOLD};">
+            <td style="padding:36px 40px 28px;border-bottom:1px solid ${GOLD};background:${INK};">
               ${sceauHtml()}
               <p style="margin:6px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;color:${GOLD};letter-spacing:0.35em;text-transform:uppercase;">Justine — Artiste émotionnelle</p>
             </td>
