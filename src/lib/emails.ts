@@ -81,7 +81,7 @@ export function notificationEmail(params: {
                   <td style="padding:20px 24px;">
                     <p style="margin:0 0 6px;font-family:Arial,Helvetica,sans-serif;font-size:10px;color:${GOLD};letter-spacing:0.25em;text-transform:uppercase;">De</p>
                     <p style="margin:0 0 4px;font-family:Georgia,serif;font-size:18px;color:${PAPER};">${escHtml(prenom)} ${escHtml(name)}</p>
-                    <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:${PAPER};opacity:0.55;">${escHtml(email)}</p>
+                    <a href="mailto:${escHtml(email)}" style="font-family:Arial,Helvetica,sans-serif;font-size:13px;color:${GOLD};opacity:0.75;text-decoration:none;">${escHtml(email)}</a>
                   </td>
                 </tr>
               </table>
