@@ -1,7 +1,7 @@
 ---
 // Section About — grande photo gauche, texte + petite photo droite
 import { Image } from "astro:assets";
-import justineImg from "../../assets/justine.webp";
+import justineImg from "../../assets/others/justine.webp";
 ---
 
 <!-- ============================================================
@@ -9,23 +9,18 @@ import justineImg from "../../assets/justine.webp";
      ============================================================ -->
 <section id="about" class="bg-paper py-24 px-6 lg:px-0 overflow-hidden">
   <div
-    class="max-w-6xl mx-auto lg:grid lg:grid-cols-[3fr_2fr] lg:min-h-screen lg:items-stretch"
+    class="max-w-6xl mx-auto lg:grid lg:grid-cols-[3fr_2fr] lg:min-h-screen lg:items-center"
   >
     <!-- ── Colonne gauche : grande photo ──────────────────────────────── -->
     <div class="relative mb-12 lg:mb-0">
-      <div class="lg:sticky lg:top-0 lg:h-screen">
-        <!-- Placeholder grande photo -->
-        <div
-          id="about-photo-main"
-          class="w-full h-80 lg:h-full bg-ink/8 flex items-center justify-center"
-          aria-label="Photo principale — à remplacer"
-        >
-          <Image
-            src={justineImg}
-            alt="Photo principale"
-            class="w-full h-full object-cover"
-          />
-        </div>
+      <div class="lg:h-screen" aria-label="Photo de Justine">
+        <Image
+          src={justineImg}
+          alt="Photo de Justine"
+          class="w-full h-full object-cover pointer-events-none select-none"
+          draggable="false"
+          loading="lazy"
+        />
       </div>
     </div>
 
@@ -45,29 +40,74 @@ import justineImg from "../../assets/justine.webp";
       </div>
 
       <!-- Texte biographique -->
-      <div id="about-bio" class="space-y-6">
-        <p class="font-serif text-ink/75 text-lg lg:text-xl leading-relaxed">
-          Texte biographique à venir — quelques lignes sur le parcours, la
-          pratique, ce qui anime Justine dans son travail.
+      <div
+        id="about-bio"
+        class="space-y-4 font-serif text-ink/75 text-lg lg:text-xl
+      leading-relaxed"
+      >
+        <p>
+          Moi c’est Justine. Maman de deux merveilleux petits chaos • ma koala
+          et mon chaton • et artiste derrière ArtSoul.
         </p>
-        <p
-          class="font-serif italic text-ink/55 text-base lg:text-lg leading-relaxed"
-        >
-          Citation ou phrase forte, si elle en a une.
+
+        <p>
+          ArtSoul est né après une hospitalisation fin 2021. À ce moment-là, le
+          dessin est devenu ma bouée. Ma façon de respirer, de transformer ce
+          que je ressentais en quelque chose de vivant.
+        </p>
+
+        <p>
+          Puis j’ai compris que je ne dessinais pas seulement.<br />
+          Je racontais des histoires.<br />
+          Des émotions.<br />
+          Des fragments de vie.
+        </p>
+
+        <p>
+          Aujourd’hui, ArtSoul est devenu un univers où les émotions et les
+          histoires deviennent des œuvres.
+        </p>
+        <p>
+          Quand je ne dessine pas, j’aime observer, écouter, imaginer… et
+          probablement boire un coca pendant que le chaos familial s’organise
+          autour de moi 🤣🖤
         </p>
       </div>
     </div>
   </div>
+
+  <script>
+    import { gsap, ScrollTrigger } from "../../lib/gsap";
+
+    document
+      .querySelector('[aria-label="Photo de Justine"]')
+      ?.addEventListener("contextmenu", (e) => e.preventDefault());
+
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: "#about", start: "top 60%" },
+    });
+
+    tl.from("#about-photo-main", {
+      x: -40,
+      autoAlpha: 0,
+      duration: 0.9,
+      ease: "power2.out",
+    })
+      .from(
+        "#about-header",
+        { y: 25, autoAlpha: 0, duration: 0.7, ease: "power2.out" },
+        "-=0.5",
+      )
+      .from(
+        "#about-bio p",
+        {
+          y: 15,
+          autoAlpha: 0,
+          duration: 0.6,
+          ease: "power2.out",
+          stagger: 0.15,
+        },
+        "-=0.3",
+      );
+  </script>
 </section>
-
-<script>
-  import { gsap, ScrollTrigger } from "../../lib/gsap";
-
-  const tl = gsap.timeline({
-    scrollTrigger: { trigger: "#about", start: "top 60%" },
-  });
-
-  tl.from("#about-photo-main", { x: -40, autoAlpha: 0, duration: 0.9, ease: "power2.out" })
-    .from("#about-header", { y: 25, autoAlpha: 0, duration: 0.7, ease: "power2.out" }, "-=0.5")
-    .from("#about-bio p", { y: 15, autoAlpha: 0, duration: 0.6, ease: "power2.out", stagger: 0.15 }, "-=0.3");
-</script>

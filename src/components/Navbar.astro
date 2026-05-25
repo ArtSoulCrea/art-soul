@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import logo from "../assets/others/logo.webp";
 // Navbar fixe — transparente au départ, fond ink au scroll
 // Le bouton Contact n'apparaît qu'une fois le Hero (et ses CTAs) sorti du viewport
 ---
@@ -16,9 +18,9 @@
       class="flex items-center gap-3 group bg-transparent border-none cursor-pointer"
       aria-label="Art Soul — retour en haut"
     >
-      <img
-        src="/assets/logo.webp"
-        alt=""
+      <Image
+        src={logo}
+        alt="Logo Art Soul"
         aria-hidden="true"
         class="h-12 w-auto brightness-0 invert"
       />
@@ -65,6 +67,12 @@
   import { gsap, ScrollTrigger } from "../lib/gsap";
 
   const navbar = document.getElementById("navbar");
+
+  document
+    .querySelector('[data-scroll-to="hero"]')
+    ?.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+    });
 
   // Fond ink + bordure gold quand le Hero sort du viewport
   ScrollTrigger.create({

@@ -2,13 +2,13 @@
 
 Landing page Astro pour une artiste peintre/dessinatrice. Objectif **narratif et émotionnel** : faire découvrir son univers, raconter une histoire. **Ce n'est pas un site de conversion** — pas de tunnel, pas de pop-up, pas d'urgence commerciale.
 
-**5 sections** dans un ordre pensé comme un arc narratif : Hero → Œuvres (avec leurs récits) → Commandes → About → Contact. On laisse les œuvres parler avant de présenter la personne.
+**7 sections** dans un ordre pensé comme un arc narratif : Hero → Intro → Œuvres → Commandes → Exemples → About → Avis → Contact. On laisse les œuvres parler avant de présenter la personne.
 
 ## Workflow imposé (LIRE EN PREMIER)
 
 Sur ce projet, l'utilisateur veut **garder le contrôle total** et apprendre GSAP au passage. Tu dois suivre ce protocole strictement :
 
-1. **Une section à la fois.** Ordre prévu : Hero + CTA → Œuvres (avec récits intégrés en modal) → Commandes → About → Contact. Ne jamais coder deux sections en parallèle dans la même réponse.
+1. **Une section à la fois.** Ordre prévu : Hero → Intro → Œuvres → Commandes → Exemples → About → Avis → Contact. Ne jamais coder deux sections en parallèle dans la même réponse.
 2. **Pour chaque section, deux étapes séparées avec validation entre les deux :**
    - **Étape A** — Structure HTML/Astro + Tailwind + contenu (sans animation). Valider visuellement.
    - **Étape B** — Animations GSAP ajoutées progressivement, avec **explication écrite en français** de ce que fait chaque timeline / ScrollTrigger (l'utilisateur ne maîtrise pas GSAP, il veut apprendre au fil).
@@ -55,27 +55,26 @@ Tailwind génère automatiquement les utilitaires : `bg-ink`, `text-paper`, `tex
 
 ## Sections du site
 
-**5 sections** dans cet ordre narratif : on laisse l'œuvre parler avant la bio.
+**7 sections** dans cet ordre narratif.
 
-| # | Section | État | Notes |
-|---|---|---|---|
-| 1 | Hero + CTA | ✅ Terminé | Fond noir, titre Playfair dramatique, CTA discret. **Inclure le nom de l'artiste + une demi-phrase de positionnement** (ex: "Marie Lefèvre — peintre et dessinatrice") pour que les visiteurs courts sachent qui ils ont en face |
-| 2 | Œuvres (+ récits) | À faire | Fond noir, **4 à 8 œuvres** en sélection curatée. Chaque œuvre est cliquable → **modal cinématique plein écran** avec l'œuvre en grand + son histoire à côté/en dessous. Transition GSAP (fade + zoom doux). Pas de partage individuel par URL pour l'instant (peut être ajouté via `#ancre` plus tard si besoin) |
-| 3 | Commandes | À faire | Présentation du process de commande, ton non-commercial |
-| 4 | About | À faire | Section claire, Cormorant pour le texte long. Placée **après** les œuvres : le visiteur rencontre la personne après avoir été touché par son travail |
-| 5 | Contact | À faire | Formulaire → `/api/contact` → Resend |
+| # | Section | Fichier | État | Notes |
+|---|---|---|---|---|
+| 1 | Hero + CTA | `Hero.astro` | ✅ Animations OK | Fond noir, titre Playfair, CTA discret vers Contact et Œuvres |
+| 2 | Intro | `Intro.astro` | ✅ Animations OK | Texte narratif d'accroche, fond noir, fissure SVG |
+| 3 | Œuvres | `Oeuvres.astro` | ✅ Animations OK | Grille 2/3 col, modal plein écran (image + récit), protection images, contenu réel intégré |
+| 4 | Commandes | `Commandes.astro` | ✅ Animations OK | Fond paper, 3 étapes numérotées, sceau flouté en fond, CTA vers Contact |
+| 5 | Exemples | `Exemples.astro` | ✅ Animations OK | Fond ink, carousel horizontal, hover description, modal image centré, 6 images réelles |
+| 6 | About | `About.astro` | ✅ Animations OK | Fond paper, grande photo gauche sticky, bio droite — contenu placeholder |
+| 7 | Avis clients | `Avis.astro` | À faire | Screenshots d'avis clients — carousel identique à Exemples, fond `bg-paper`, modal pour agrandir, protection clic droit/drag. Images à placer dans `src/assets/avis/` quand disponibles. |
+| 8 | Contact | `Contact.astro` | Structure OK | Formulaire → `/api/contact` → Resend — envoi email non implémenté |
 
-Mettre à jour la colonne **État** au fur et à mesure (À faire / Structure OK / Animations OK).
+### Pattern modal (Œuvres + Exemples)
 
-### Modal Œuvre — pattern technique
-
-Le modal est un composant `.astro` avec un peu de JS client (pas besoin de framework) qui :
-- Écoute les clics sur les cartes d'œuvre
-- Affiche un overlay `fixed inset-0 bg-ink/95` avec l'image grand format + l'histoire
-- Anime l'apparition via GSAP (fade-in overlay, zoom doux sur l'image, slide-up du texte)
-- Se ferme via touche Escape, clic hors zone, ou bouton de fermeture
-- Bloque le scroll de la page derrière (toggle `overflow-hidden` sur `<body>`)
-- Accessible : focus trap, `aria-modal`, retour du focus au déclencheur à la fermeture
+- Overlay `fixed inset-0 bg-ink/95`, `role="dialog"`, `aria-modal="true"`
+- Fermeture : bouton ×, touche Escape, clic sur le fond
+- Scroll body bloqué (`overflow: hidden`) pendant ouverture
+- Images : `src/assets/` → URLs hashées non devinables, clic droit bloqué, drag désactivé
+- Transition image : opacity 0 → src change → `onload` → opacity 1 (évite le flash de l'ancienne image)
 
 ## Variables d'environnement
 

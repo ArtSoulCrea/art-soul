@@ -1,5 +1,6 @@
 ---
-const oeuvreHero = "/assets/hero-oeuvre.webp"; // remplacer par le vrai fichier
+import { Image } from "astro:assets";
+import oeuvreHero from "../../assets/others/hero-oeuvre.webp"; // remplacer par le vrai fichier
 import Fissure from "../Fissure.astro";
 import fissureSvg from "../../assets/fissures/fissure.svg?raw";
 ---
@@ -9,14 +10,17 @@ import fissureSvg from "../../assets/fissures/fissure.svg?raw";
   class="relative min-h-screen flex flex-col overflow-hidden lg:flex-row"
 >
   <!-- Image en arrière-plan : mobile uniquement, masquée sur desktop -->
-  <div class="absolute inset-0 lg:hidden overflow-hidden">
-    <img
+  <div
+    class="absolute inset-0 lg:hidden overflow-hidden pointer-events-none select-none"
+  >
+    <Image
       id="hero-bg-img"
       src={oeuvreHero}
       loading="eager"
-      alt="Image de l'oeuvre principale"
+      alt="Oeuvre principale"
       aria-hidden="true"
       class="w-full h-full object-cover object-center"
+      draggable="false"
     />
     <div
       class="absolute inset-0 bg-linear-to-b from-ink/85 via-ink/72 to-ink/95"
@@ -30,14 +34,14 @@ import fissureSvg from "../../assets/fissures/fissure.svg?raw";
   >
     <span
       id="hero-prenom"
-      class="font-sans text-paper/40 text-xs tracking-[0.4em] uppercase mb-6"
+      class="font-sans text-paper/60 text-xs tracking-[0.4em] uppercase mb-6"
     >
       Justine
     </span>
 
     <h1 id="hero-title" class="font-display font-bold leading-[0.9] mb-5">
       <span
-        class="block text-[clamp(3rem,12vw,6rem)] bg-gradient-to-r from-gold to-paper bg-clip-text text-transparent"
+        class="block text-[clamp(3rem,12vw,6rem)] bg-linear-to-r from-gold to-paper bg-clip-text text-transparent"
       >
         ARTSOUL
       </span>
@@ -57,7 +61,7 @@ import fissureSvg from "../../assets/fissures/fissure.svg?raw";
     <div id="hero-ctas" class="flex flex-col sm:flex-row gap-4">
       <button
         data-scroll-to="contact"
-        class="font-sans text-xs tracking-[0.25em] uppercase rounded font-semibold px-8 py-4 bg-gold text-ink hover:bg-gold/85 hover:text-paper transition-colors duration-300 text-center bg-gold border-none cursor-pointer"
+        class="font-sans text-xs tracking-[0.25em] uppercase rounded font-semibold px-8 py-4 bg-gold text-ink hover:bg-gold/85 hover:text-paper transition-colors duration-300 text-center border-none cursor-pointer"
       >
         Commander une création
       </button>
@@ -73,13 +77,14 @@ import fissureSvg from "../../assets/fissures/fissure.svg?raw";
   <!-- Image panel : desktop uniquement -->
   <div
     id="hero-image-panel"
-    class="hidden lg:flex lg:w-[45%] shrink-0 items-center justify-center"
+    class="hidden lg:flex lg:w-[45%] shrink-0 items-center justify-center pointer-events-none select-none"
   >
-    <img
+    <Image
       src={oeuvreHero}
       loading="eager"
-      alt="Image de l'oeuvre principale"
+      alt="Oeuvre principale"
       class="h-full max-h-screen w-full object-cover"
+      draggable="false"
     />
   </div>
 </section>
@@ -140,5 +145,9 @@ import fissureSvg from "../../assets/fissures/fissure.svg?raw";
       duration: 2.5,
       ease: "power2.out",
     });
+  });
+
+  document.querySelectorAll<HTMLElement>("#hero img").forEach((img) => {
+    img.addEventListener("contextmenu", (e) => e.preventDefault());
   });
 </script>

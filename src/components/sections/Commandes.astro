@@ -1,5 +1,7 @@
 ---
 // Section Commandes émotionnelles — texte, process, CTA contact
+import { Image } from "astro:assets";
+import sceau from "../../assets/others/sceau.webp";
 ---
 
 <!-- ============================================================
@@ -15,7 +17,7 @@
       <h2 class="font-display text-5xl lg:text-6xl text-ink leading-tight mb-8">
         Et si votre propre histoire devenait une œuvre&nbsp;?
       </h2>
-      <div class="w-16 h-px bg-gold/50"></div>
+      <div class="w-16 h-px bg-gold"></div>
     </div>
 
     <!-- Introduction -->
@@ -26,7 +28,7 @@
           class="font-semibold text-gold/80">l'œuvre unique</span
         >, qui fait écho à votre histoire.
       </p>
-      <p class="font-serif italic text-ink/50 text-xl leading-relaxed">
+      <p class="font-serif italic text-ink/60 text-xl leading-relaxed">
         Hommage, passion, reconstruction... je vous aide à sublimer cette
         émotion pour qu'elle devienne une force.
       </p>
@@ -35,63 +37,78 @@
     <!-- Process -->
     <div id="commandes-process" class="mb-16 space-y-10 relative py-8">
       <!-- Logo flouté en arrière-plan -->
-      <img
-        src="/assets/sceau.webp"
-        alt="Image sceau ArtSoul"
+      <Image
+        src={sceau}
+        alt="Sceau ArtSoul"
         aria-hidden="true"
         class="absolute inset-0 w-full h-full object-contain opacity-30 pointer-events-none select-none"
       />
 
       <!-- Étape 1 -->
       <div class="flex gap-8 items-start relative">
-        <span class="font-display text-4xl text-gold/30 leading-none shrink-0"
+        <span class="font-display text-4xl text-gold/50 leading-none shrink-0"
           >01</span
         >
         <div>
           <h3
-            class="font-sans text-xs tracking-[0.2em] uppercase text-ink/50 mb-3"
+            class="font-sans text-xs tracking-[0.2em] uppercase text-ink/60 mb-3"
           >
-            Titre étape 1
+            Rencontre
           </h3>
           <p class="font-serif text-ink text-lg leading-relaxed">
-            Description de la première étape du process — ex : le dialogue
-            initial, comprendre votre histoire.
+            Vous me racontez votre histoire, votre émotion ou votre projet.
           </p>
         </div>
       </div>
 
       <!-- Étape 2 -->
       <div class="flex gap-8 items-start relative">
-        <span class="font-display text-4xl text-gold/30 leading-none shrink-0"
+        <span class="font-display text-4xl text-gold/50 leading-none shrink-0"
           >02</span
         >
         <div>
           <h3
-            class="font-sans text-xs tracking-[0.2em] uppercase text-ink/50 mb-3"
+            class="font-sans text-xs tracking-[0.2em] uppercase text-ink/60 mb-3"
           >
-            Titre étape 2
+            Exploration
           </h3>
           <p class="font-serif text-ink text-lg leading-relaxed">
-            Description de la deuxième étape — ex : la création, les
-            allers-retours si besoin.
+            J’imagine les symboles, les détails et les éléments qui porteront
+            votre récit.
           </p>
         </div>
       </div>
 
       <!-- Étape 3 -->
       <div class="flex gap-8 items-start relative">
-        <span class="font-display text-4xl text-gold/30 leading-none shrink-0"
+        <span class="font-display text-4xl text-gold/50 leading-none shrink-0"
           >03</span
         >
         <div>
           <h3
-            class="font-sans text-xs tracking-[0.2em] uppercase text-ink/50 mb-3"
+            class="font-sans text-xs tracking-[0.2em] uppercase text-ink/60 mb-3"
           >
-            Titre étape 3
+            Création
           </h3>
           <p class="font-serif text-ink text-lg leading-relaxed">
-            Description de la troisième étape — ex : la livraison,
-            l'accompagnement, ce que l'œuvre représente une fois terminée.
+            Je donne vie à l’œuvre et transforme votre histoire en création.
+          </p>
+        </div>
+      </div>
+
+      <!-- Étape 4 -->
+      <div class="flex gap-8 items-start relative">
+        <span class="font-display text-4xl text-gold/50 leading-none shrink-0"
+          >04</span
+        >
+        <div>
+          <h3
+            class="font-sans text-xs tracking-[0.2em] uppercase text-ink/60 mb-3"
+          >
+            Adoption
+          </h3>
+          <p class="font-serif text-ink text-lg leading-relaxed">
+            Vous accueillez une œuvre unique signée ArtSoul + Justine.
           </p>
         </div>
       </div>
