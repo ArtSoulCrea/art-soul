@@ -120,9 +120,8 @@ import fissureSvg from "../../assets/fissures/fissure-contact.svg?raw";
     <!-- État succès -->
     <div id="contact-success" class="hidden py-8">
       <div class="w-px h-12 mx-auto bg-violet mb-10"></div>
-      <p class="font-serif italic text-2xl text-paper/85 mb-4">
-        Votre message est bien parti. Je vous répondrai dans les meilleurs
-        délais.
+      <p class="font-serif italic text-2xl text-gold/80 mb-4 text-center">
+        Votre message a bien été envoyé. Je reviens vers vous rapidement.
       </p>
     </div>
   </div>
@@ -212,7 +211,9 @@ import fissureSvg from "../../assets/fissures/fissure-contact.svg?raw";
 
   function validateForm(): boolean {
     const name = document.getElementById("contact-name") as HTMLInputElement;
-    const prenom = document.getElementById("contact-prenom") as HTMLInputElement;
+    const prenom = document.getElementById(
+      "contact-prenom",
+    ) as HTMLInputElement;
     const email = document.getElementById("contact-email") as HTMLInputElement;
     const message = document.getElementById(
       "contact-message",

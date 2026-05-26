@@ -8,6 +8,7 @@ const INK = "#0E0E0E";
 const PAPER = "#F5F3EE";
 const GOLD = "#C8A646";
 const SURFACE = "#1A1A1A";
+const VIOLET = "#5B3A6F";
 
 // Si SITE_URL est défini (.env), utilise le logo blanc ; sinon fallback texte.
 // Ajouter dans .env : SITE_URL=https://artsoul.fr  +  public/sceau.webp
@@ -46,8 +47,8 @@ function base(content: string): string {
 
           <!-- Pied de page -->
           <tr>
-            <td style="padding:24px 40px;border-top:1px solid ${SURFACE};">
-              <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:10px;color:${PAPER};opacity:0.25;text-align:center;letter-spacing:0.05em;">
+            <td style="padding:24px 40px;border-top:1px solid ${VIOLET};">
+              <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:10px;color:${PAPER};opacity:0.40;text-align:center;letter-spacing:0.05em;">
                 ArtSoul · Message reçu via le formulaire de contact
               </p>
             </td>
@@ -133,10 +134,10 @@ export function autoReplyEmail(params: {
               </h1>
               <p style="margin:0 0 20px;font-family:Georgia,'Times New Roman',serif;font-size:17px;color:${PAPER};line-height:1.8;opacity:0.85;">
                 Votre message m'a bien été transmis.<br />
-                Je vous répondrai dans les meilleurs délais.
+                Je vous répondrai dans les meilleurs délais après en avoir pris connaissance.
               </p>
               <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:15px;color:${PAPER};line-height:1.8;opacity:0.55;font-style:italic;">
-                — Justine
+                Justine
               </p>
             </td>
           </tr>
