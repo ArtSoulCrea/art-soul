@@ -12,7 +12,7 @@ interface Props {
 
 const {
   title = "Art Soul — Justine",
-  description = "Justine transforme les failles en lumière — peinture et dessin.",
+  description = "Je m'appele Justine et je suis artiste émotionnelle. Je réalise des oeuvres qui raconte une histoire. Deuil, renaissance, parcours de vie, hommage ou transformation, je mets en valeur vos émotions pour en faire une force. Vous me racontez votre histoire, et je la transforme en une oeuvre unique qui vous accompagnera. J'utilise principalement la peinture et le dessin pour la réalisation de mes créations.",
   ogImage = defaultOgImage.src,
 } = Astro.props;
 
@@ -48,7 +48,9 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)
   </head>
   <body>
     <Navbar />
-    <slot />
+    <main>
+      <slot />
+    </main>
     <Footer />
   </body>
 </html>
