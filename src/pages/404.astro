@@ -1,0 +1,34 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Page introuvable — Art Soul" description="Cette page n'existe pas.">
+  <section class="min-h-screen bg-ink flex flex-col items-center justify-center px-6 text-center">
+    <p class="font-sans text-xs tracking-[0.35em] text-gold uppercase mb-8">404</p>
+    <h1 class="font-display text-5xl lg:text-7xl text-paper mb-6 leading-tight">
+      Page introuvable
+    </h1>
+    <div class="w-12 h-px bg-violet mb-8"></div>
+    <p class="font-serif italic text-paper/55 text-xl max-w-sm leading-relaxed mb-12">
+      Cette page n'existe pas ou a été déplacée.
+    </p>
+    <a
+      href="/"
+      class="font-sans text-xs tracking-[0.25em] uppercase font-semibold px-10 py-4 rounded bg-gold text-ink hover:text-paper transition-colors duration-300"
+    >
+      Retour à l'accueil
+    </a>
+  </section>
+</Layout>
+
+<script>
+  import { gsap } from "gsap";
+
+  const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+  tl.from("section > *", {
+    y: 20,
+    autoAlpha: 0,
+    duration: 0.7,
+    stagger: 0.1,
+  });
+</script>

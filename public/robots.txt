@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://art-soul-nu.vercel.app/sitemap.xml

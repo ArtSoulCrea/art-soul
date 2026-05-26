@@ -1,0 +1,22 @@
+# Art Soul — Justine
+
+> Artiste émotionnelle française. Créations uniques sur commande : peinture et dessin.
+
+Justine est une artiste émotionnelle qui réalise des œuvres personnalisées sur commande. Chaque création naît d'une histoire partagée — deuil, renaissance, hommage, transformation — et prend vie sous forme de peinture ou de dessin unique.
+
+## Ce que propose le site
+
+- Découverte de l'univers artistique de Justine et de ses œuvres
+- Présentation du processus de commande en 3 étapes : échange, création, livraison
+- Galerie d'exemples de réalisations sur commande
+- Formulaire de contact pour initier une commande ou poser une question
+
+## Contact
+
+Les commandes et questions se font via le formulaire de contact disponible sur le site.
+
+## Technique
+
+- Site vitrine statique (Astro, SSR Vercel)
+- Pas de boutique en ligne — les commandes passent par le formulaire de contact
+- Contenu uniquement en français
