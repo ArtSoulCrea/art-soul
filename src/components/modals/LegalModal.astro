@@ -1,0 +1,65 @@
+---
+// LegalModal — wrapper générique pour les modals légaux (Mentions, Confidentialité, CGV)
+// Le JS d'ouverture/fermeture vit dans Footer.astro et découvre ces modals via [data-legal-modal].
+
+interface Props {
+  id: string;
+  title: string;
+  subtitle?: string;
+}
+
+const { id, title, subtitle } = Astro.props;
+const titleId = `${id}-title`;
+---
+
+<div
+  id={id}
+  data-legal-modal
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby={titleId}
+  class="fixed inset-0 z-50 hidden bg-ink/98 overflow-y-auto"
+>
+  <div class="max-w-2xl mx-auto px-6 py-16">
+    <!-- Bouton fermeture -->
+    <button
+      data-close-modal
+      aria-label="Fermer"
+      class="block ml-auto mb-12 text-paper/40 hover:text-paper transition-colors duration-300 cursor-pointer"
+    >
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+      >
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <!-- Titre + sous-titre optionnel -->
+    <h2
+      id={titleId}
+      class:list={[
+        "font-display text-4xl text-paper",
+        subtitle ? "mb-2" : "mb-12",
+      ]}
+    >
+      {title}
+    </h2>
+    {
+      subtitle && (
+        <p class="font-sans text-xs text-paper/30 mb-12">{subtitle}</p>
+      )
+    }
+
+    <!-- Contenu projeté par le composant enfant -->
+    <div class="font-serif text-paper/70 text-lg leading-relaxed space-y-8">
+      <slot />
+    </div>
+  </div>
+</div>

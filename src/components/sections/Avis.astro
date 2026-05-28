@@ -1,6 +1,7 @@
 ---
 // Section Avis — carousel auto-scroll, pause au survol, zoom au clic
 import { Image } from "astro:assets";
+import AvisModal from "../modals/AvisModal.astro";
 import img1 from "../../assets/avis/image1.webp";
 import img2 from "../../assets/avis/image2.webp";
 import img3 from "../../assets/avis/image3.webp";
@@ -66,42 +67,8 @@ const avis = [
   </div>
 </section>
 
-<!-- ============================================================
-     MODAL AVIS — zoom simple sur le screenshot
-     ============================================================ -->
-<div
-  id="avis-modal"
-  role="dialog"
-  aria-modal="true"
-  aria-label="Agrandissement de l'avis"
-  class="fixed inset-0 z-50 bg-ink/95 hidden items-center justify-center p-6 lg:p-16"
->
-  <button
-    id="avis-modal-close"
-    type="button"
-    aria-label="Fermer"
-    class="fixed top-6 right-6 z-10 w-10 h-10 flex items-center justify-center text-paper/50 hover:text-paper transition-colors cursor-pointer"
-  >
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1.5"
-    >
-      <path d="M4 4L16 16M16 4L4 16"></path>
-    </svg>
-  </button>
-
-  <img
-    id="avis-modal-image"
-    src=""
-    alt=""
-    draggable="false"
-    class="max-w-full max-h-[85vh] object-contain pointer-events-none select-none transition-opacity duration-300"
-  />
-</div>
+<!-- Modal d'agrandissement (composant séparé) -->
+<AvisModal />
 
 <script>
   import { gsap } from "../../lib/gsap";
@@ -157,60 +124,11 @@ const avis = [
     carousel.addEventListener("mouseleave", () => tween.resume());
   });
 
-  // ── Modal zoom ────────────────────────────────────────────────────────────
-  const modal = document.getElementById("avis-modal")!;
-  const closeBtn = document.getElementById("avis-modal-close")!;
-  const modalImg = document.getElementById(
-    "avis-modal-image",
-  ) as HTMLImageElement;
-  let triggerBtn: HTMLElement | null = null;
-
-  function openModal(btn: HTMLElement) {
-    const src = btn.dataset.src ?? "";
-    if (!src) return; // pas d'image encore, on n'ouvre pas
-
-    modalImg.style.opacity = "0";
-    modalImg.src = src;
-    modalImg.onload = () => {
-      modalImg.style.opacity = "1";
-    };
-
-    triggerBtn = btn;
-    modal.classList.remove("hidden");
-    modal.classList.add("flex");
-    document.body.style.overflow = "hidden";
-    closeBtn.focus();
-  }
-
-  function closeModal() {
-    modal.classList.add("hidden");
-    modal.classList.remove("flex");
-    document.body.style.overflow = "";
-    triggerBtn?.focus();
-  }
-
-  // Délègue les clics sur le track entier — fonctionne sur les clones aussi.
-  // On ne filtre PAS sur aria-hidden : c'est un attribut pour les lecteurs d'écran,
-  // il ne doit pas bloquer les clics visuels. tabindex="-1" gère le clavier.
-  track.addEventListener("click", (e) => {
-    const btn = (e.target as Element).closest<HTMLElement>("[data-avis-id]");
-    if (btn) openModal(btn);
-  });
-
-  closeBtn.addEventListener("click", closeModal);
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
-  });
-
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) closeModal();
-  });
-
-  // ── Protection clic droit ─────────────────────────────────────────────────
-  document.addEventListener("contextmenu", (e) => {
-    if ((e.target as Element).closest("#avis, #avis-modal")) e.preventDefault();
-  });
+  // ── Protection clic droit sur les vignettes du carousel ───────────────────
+  // (le modal gère sa propre protection — cf. AvisModal.astro)
+  document
+    .getElementById("avis")!
+    .addEventListener("contextmenu", (e) => e.preventDefault());
 </script>
 
 <script>

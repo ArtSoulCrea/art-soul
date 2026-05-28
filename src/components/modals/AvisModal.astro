@@ -1,0 +1,93 @@
+---
+// AvisModal — overlay plein écran pour zoomer sur un screenshot d'avis client.
+// S'ouvre au clic sur n'importe quel bouton [data-avis-id] (vignettes du carousel
+// d'Avis.astro, originaux et clones inclus).
+---
+
+<div
+  id="avis-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Agrandissement de l'avis"
+  class="fixed inset-0 z-50 bg-ink/95 hidden items-center justify-center p-6 lg:p-16"
+>
+  <button
+    id="avis-modal-close"
+    type="button"
+    aria-label="Fermer"
+    class="fixed top-6 right-6 z-10 w-10 h-10 flex items-center justify-center text-paper/50 hover:text-paper transition-colors cursor-pointer"
+  >
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+    >
+      <path d="M4 4L16 16M16 4L4 16"></path>
+    </svg>
+  </button>
+
+  <img
+    id="avis-modal-image"
+    src=""
+    alt=""
+    draggable="false"
+    class="max-w-full max-h-[85vh] object-contain pointer-events-none select-none transition-opacity duration-300"
+  />
+</div>
+
+<script>
+  const modal = document.getElementById("avis-modal")!;
+  const closeBtn = document.getElementById("avis-modal-close")!;
+  const modalImg = document.getElementById(
+    "avis-modal-image",
+  ) as HTMLImageElement;
+  let triggerBtn: HTMLElement | null = null;
+
+  function openModal(btn: HTMLElement) {
+    const src = btn.dataset.src ?? "";
+    if (!src) return;
+
+    // Fade out → swap src → fade in (évite le flash de l'ancienne image)
+    modalImg.style.opacity = "0";
+    modalImg.src = src;
+    modalImg.onload = () => {
+      modalImg.style.opacity = "1";
+    };
+
+    triggerBtn = btn;
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+    document.body.style.overflow = "hidden";
+    closeBtn.focus();
+  }
+
+  function closeModal() {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+    document.body.style.overflow = "";
+    triggerBtn?.focus();
+  }
+
+  // Délégation document-level : capte les clics sur les vignettes ET leurs clones,
+  // peu importe leur emplacement dans le DOM.
+  document.addEventListener("click", (e) => {
+    const btn = (e.target as Element).closest<HTMLElement>("[data-avis-id]");
+    if (btn) openModal(btn);
+  });
+
+  closeBtn.addEventListener("click", closeModal);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
+  });
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  // Protection clic droit sur l'image agrandie
+  modal.addEventListener("contextmenu", (e) => e.preventDefault());
+</script>
