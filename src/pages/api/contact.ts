@@ -4,6 +4,16 @@ import { notificationEmail, autoReplyEmail } from "../../lib/emails";
 
 export const POST: APIRoute = async ({ request }) => {
   const data = await request.formData();
+
+  // Honeypot : champ invisible côté client. Si rempli → bot.
+  // On retourne 200 silencieusement pour ne pas révéler la détection.
+  if (data.get("website")?.toString().trim()) {
+    return new Response(JSON.stringify({ success: true }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   const name = data.get("name")?.toString().trim();
   const prenom = data.get("prenom")?.toString().trim();
   const email = data.get("email")?.toString().trim();

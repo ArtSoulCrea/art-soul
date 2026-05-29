@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import vercel from '@astrojs/vercel';
 
 export default defineConfig({
-  site: 'https://art-soul-nu.vercel.app',
+  site: 'https://artsoulcrea.fr',
   output: 'server',
   adapter: vercel(),
   vite: {
